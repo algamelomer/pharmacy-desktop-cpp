@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{54c6b9ac-a6ed-41c0-b42d-3c870b79d037}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data base">
+      <UniqueIdentifier>{83018339-81c5-4b16-b2d1-9f74729003d2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="home.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="db.cpp">
+      <Filter>Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Login.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="category.cpp">
+      <Filter>Data base</Filter>
+    </ClCompile>
+    <ClCompile Include="inventory.cpp">
+      <Filter>Data base</Filter>
+    </ClCompile>
+    <ClCompile Include="product.cpp">
+      <Filter>Data base</Filter>
+    </ClCompile>
+    <ClCompile Include="user.cpp">
+      <Filter>Data base</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Login.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="home.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="db.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="user.h">
+      <Filter>Data base</Filter>
+    </ClInclude>
+    <ClInclude Include="category.h">
+      <Filter>Data base</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory.h">
+      <Filter>Data base</Filter>
+    </ClInclude>
+    <ClInclude Include="product.h">
+      <Filter>Data base</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
