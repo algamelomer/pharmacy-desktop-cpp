@@ -46,7 +46,7 @@
       <Filter>Data base</Filter>
     </ClCompile>
     <ClCompile Include="productsearchform.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
