@@ -31,7 +31,7 @@ void DBHelper::CreateDatabaseIfNotExists(String^ dbFile)
         command->ExecuteNonQuery();
 
         // Default admin user
-        String^ insertAdmin = "INSERT INTO users (username, password) VALUES ('admin', '12345');";
+        String^ insertAdmin = "INSERT INTO users (username, password) VALUES ('admin', '1234');";
         command = gcnew SQLiteCommand(insertAdmin, connection);
         command->ExecuteNonQuery();
 

@@ -46,7 +46,10 @@
       <Filter>Data base</Filter>
     </ClCompile>
     <ClCompile Include="productsearchform.cpp">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dashboard.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +78,9 @@
       <Filter>Data base</Filter>
     </ClInclude>
     <ClInclude Include="productsearchform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dashboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

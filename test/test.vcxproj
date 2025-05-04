@@ -124,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="category.cpp" />
+    <ClCompile Include="dashboard.cpp" />
     <ClCompile Include="home.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="Login.cpp" />
@@ -135,6 +136,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="category.h" />
+    <ClInclude Include="dashboard.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="db.h" />
     <ClInclude Include="home.h">
       <FileType>CppForm</FileType>
@@ -151,6 +155,9 @@
     <ClInclude Include="user.h" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="dashboard.resx">
+      <DependentUpon>dashboard.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="home.resx">
       <DependentUpon>home.h</DependentUpon>
     </EmbeddedResource>
