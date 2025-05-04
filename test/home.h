@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "productsearchform.h"
 
 namespace test {
 
@@ -245,6 +246,7 @@ namespace test {
             this->search_item_panel->Name = L"search_item_panel";
             this->search_item_panel->Size = System::Drawing::Size(208, 56);
             this->search_item_panel->TabIndex = 5;
+            this->search_item_panel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &home::search_item_panel_Paint);
             // 
             // label4
             // 
@@ -387,6 +389,7 @@ namespace test {
             // sidebar_panel_container
             // 
             this->sidebar_panel_container->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
+            this->sidebar_panel_container->BackColor = System::Drawing::Color::Snow;
             this->sidebar_panel_container->Controls->Add(this->flowLayoutPanel1);
             this->sidebar_panel_container->Controls->Add(this->logout_panel);
             this->sidebar_panel_container->Dock = System::Windows::Forms::DockStyle::Left;
@@ -457,5 +460,10 @@ namespace test {
     private: System::Void Menu_panel_Click(System::Object^ sender, System::EventArgs^ e);
     private: System::Void sidebar_panel_container_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
     }
+private: System::Void search_item_panel_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+    ProductSearchForm^ form = gcnew ProductSearchForm();
+    form->ShowDialog(); // or Show()
+
+}
 };
 }

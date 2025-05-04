@@ -1,6 +1,7 @@
 #pragma once
 
 using namespace System;
+using namespace System::Collections::Generic;
 
 public ref class Product
 {
@@ -21,4 +22,7 @@ public:
     static Product^ GetProductById(int id);
     static bool UpdateProduct(Product^ product);
     static bool DeleteProduct(int id);
+    static List<Product^>^ SearchProductsByName(String^ partialName);
+    static void InsertDummyData();
+
 };

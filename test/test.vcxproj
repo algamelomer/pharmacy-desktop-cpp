@@ -130,6 +130,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="db.cpp" />
     <ClCompile Include="product.cpp" />
+    <ClCompile Include="productsearchform.cpp" />
     <ClCompile Include="user.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +144,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="product.h" />
+    <ClInclude Include="productsearchform.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="user.h" />
   </ItemGroup>
@@ -152,6 +156,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="productsearchform.resx">
+      <DependentUpon>productsearchform.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

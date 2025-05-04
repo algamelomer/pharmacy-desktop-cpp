@@ -45,6 +45,9 @@
     <ClCompile Include="user.cpp">
       <Filter>Data base</Filter>
     </ClCompile>
+    <ClCompile Include="productsearchform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Login.h">
@@ -70,6 +73,9 @@
     </ClInclude>
     <ClInclude Include="product.h">
       <Filter>Data base</Filter>
+    </ClInclude>
+    <ClInclude Include="productsearchform.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
