@@ -1,5 +1,6 @@
 #include "Login.h"
 #include "home.h"
+#include "db.h"
 #include "user.h"
 
 System::Void test::Login::button1_Click(System::Object^ sender, System::EventArgs^ e)
