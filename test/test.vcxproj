@@ -136,6 +136,8 @@
     <ClCompile Include="product.cpp" />
     <ClCompile Include="productsearchform.cpp" />
     <ClCompile Include="ReceiptForm.cpp" />
+    <ClCompile Include="sale.cpp" />
+    <ClCompile Include="sale_item.cpp" />
     <ClCompile Include="user.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +167,8 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="sale.h" />
+    <ClInclude Include="sale_item.h" />
     <ClInclude Include="user.h" />
   </ItemGroup>
   <ItemGroup>

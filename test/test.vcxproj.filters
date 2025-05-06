@@ -63,6 +63,12 @@
     <ClCompile Include="EditProductForm.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="sale.cpp">
+      <Filter>Data base</Filter>
+    </ClCompile>
+    <ClCompile Include="sale_item.cpp">
+      <Filter>Data base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Login.h">
@@ -103,6 +109,12 @@
     </ClInclude>
     <ClInclude Include="EditProductForm.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sale.h">
+      <Filter>Data base</Filter>
+    </ClInclude>
+    <ClInclude Include="sale_item.h">
+      <Filter>Data base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
