@@ -43,17 +43,23 @@ List<Product^>^ ProductDBHelper::SearchProductsByName(String^ partialName)
         cmd->Parameters->AddWithValue("@name", "%" + partialName + "%");
 
         SQLiteDataReader^ reader = cmd->ExecuteReader();
-        while (reader->Read())
+        try
         {
-            Product^ product = gcnew Product();
-            product->Id = reader->GetInt32(0);
-            product->Name = reader->GetString(1);
-            product->CategoryId = reader->GetInt32(2);
-            product->InventoryId = reader->GetInt32(3);
-            product->Price = reader->GetDouble(4);
-            product->Count = reader->GetInt32(5);
-            product->Barcode = reader->GetString(6);
-            results->Add(product);
+            while (reader->Read())
+            {
+                Product^ product = gcnew Product();
+                product->Id = reader->GetInt32(0);
+                product->Name = reader->GetString(1);
+                product->CategoryId = reader->GetInt32(2);
+                product->InventoryId = reader->GetInt32(3);
+                product->Price = reader->GetDouble(4);
+                product->Count = reader->GetInt32(5);
+                product->Barcode = reader->GetString(6);
+                results->Add(product);
+            }
+		}
+        finally {
+            reader->Close();
         }
     }
     catch (Exception^ ex)
@@ -123,6 +129,7 @@ void ProductDBHelper::InsertDummyData()
         AddProduct(p);
     }
 
+
 }
 
 
@@ -135,6 +142,7 @@ Product^ ProductDBHelper::GetProductById(int id)
         SQLiteCommand^ cmd = gcnew SQLiteCommand(query, conn);
         cmd->Parameters->AddWithValue("@id", id);
         SQLiteDataReader^ reader = cmd->ExecuteReader();
+        try{
         if (reader->Read())
         {
             Product^ p = gcnew Product();
@@ -148,6 +156,10 @@ Product^ ProductDBHelper::GetProductById(int id)
             return p;
         }
         return nullptr;
+		}
+        finally {
+            reader->Close();
+        }
     }
     catch (Exception^ ex)
     {
@@ -196,7 +208,8 @@ bool ProductDBHelper::DeleteProduct(int id)
         String^ query = "DELETE FROM products WHERE id = @id";
         SQLiteCommand^ cmd = gcnew SQLiteCommand(query, conn);
         cmd->Parameters->AddWithValue("@id", id);
-        return cmd->ExecuteNonQuery() > 0;
+		int rowsAffected = cmd->ExecuteNonQuery();
+        return rowsAffected;
     }
     catch (Exception^ ex)
     {

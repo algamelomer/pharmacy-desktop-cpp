@@ -1,5 +1,6 @@
 #include "home.h"
 #include "Login.h"
+#include "ReceiptForm.h"
 
 namespace test {
 
@@ -75,6 +76,14 @@ namespace test {
         removeItemLabel->Font = gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Bold);
         removeItemLabel->Location = System::Drawing::Point(50, 50);
         content_panel->Controls->Add(removeItemLabel);
+        List<int>^ purchasedIds = gcnew List<int>();
+        purchasedIds->Add(4);
+        purchasedIds->Add(3);
+        double userCash = 5000.0;
+        ReceiptForm^ receiptForm = gcnew ReceiptForm();
+        receiptForm->ShowDialog();
+
+
     }
 
     System::Void home::search_item_panel_Click(System::Object^ sender, System::EventArgs^ e) {

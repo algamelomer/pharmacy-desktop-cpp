@@ -136,6 +136,7 @@ namespace test {
             this->label3->BackColor = System::Drawing::Color::Transparent;
             this->label3->Font = (gcnew System::Drawing::Font(L"Script MT Bold", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
+            this->label3->ForeColor = System::Drawing::Color::WhiteSmoke;
             this->label3->Location = System::Drawing::Point(54, 18);
             this->label3->Name = L"label3";
             this->label3->Size = System::Drawing::Size(81, 24);
@@ -175,6 +176,7 @@ namespace test {
             this->label1->BackColor = System::Drawing::Color::Transparent;
             this->label1->Font = (gcnew System::Drawing::Font(L"Script MT Bold", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
+            this->label1->ForeColor = System::Drawing::Color::WhiteSmoke;
             this->label1->Location = System::Drawing::Point(54, 18);
             this->label1->Name = L"label1";
             this->label1->Size = System::Drawing::Size(58, 24);
@@ -293,6 +295,7 @@ namespace test {
             this->label5->BackColor = System::Drawing::Color::Transparent;
             this->label5->Font = (gcnew System::Drawing::Font(L"Script MT Bold", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
+            this->label5->ForeColor = System::Drawing::Color::WhiteSmoke;
             this->label5->Location = System::Drawing::Point(54, 18);
             this->label5->Name = L"label5";
             this->label5->Size = System::Drawing::Size(57, 24);
@@ -396,7 +399,8 @@ namespace test {
             // sidebar_panel_container
             // 
             this->sidebar_panel_container->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
-            this->sidebar_panel_container->BackColor = System::Drawing::Color::Snow;
+            this->sidebar_panel_container->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(46)),
+                static_cast<System::Int32>(static_cast<System::Byte>(46)), static_cast<System::Int32>(static_cast<System::Byte>(46)));
             this->sidebar_panel_container->Controls->Add(this->flowLayoutPanel1);
             this->sidebar_panel_container->Controls->Add(this->logout_panel);
             this->sidebar_panel_container->Dock = System::Windows::Forms::DockStyle::Left;
@@ -434,11 +438,14 @@ namespace test {
             // 
             this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
             this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+            this->AutoSize = true;
             this->ClientSize = System::Drawing::Size(844, 614);
             this->Controls->Add(this->content_panel);
             this->Controls->Add(this->sidebar_panel_container);
             this->Name = L"home";
+            this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
             this->Text = L"home";
+            this->WindowState = System::Windows::Forms::FormWindowState::Maximized;
             this->Load += gcnew System::EventHandler(this, &home::home_Load);
             this->add_item_panel->ResumeLayout(false);
             this->add_item_panel->PerformLayout();

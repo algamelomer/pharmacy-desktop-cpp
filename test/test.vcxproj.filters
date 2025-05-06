@@ -19,6 +19,9 @@
     <Filter Include="Data base">
       <UniqueIdentifier>{83018339-81c5-4b16-b2d1-9f74729003d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Functions">
+      <UniqueIdentifier>{70172ce8-8dc9-485a-88bd-6203f70c9212}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -51,6 +54,15 @@
     <ClCompile Include="dashboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ReceiptForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InputDialog.cpp">
+      <Filter>Functions</Filter>
+    </ClCompile>
+    <ClCompile Include="EditProductForm.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Login.h">
@@ -81,6 +93,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dashboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ReceiptForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputDialog.h">
+      <Filter>Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="EditProductForm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

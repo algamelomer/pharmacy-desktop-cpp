@@ -113,6 +113,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite">
@@ -125,13 +126,16 @@
   <ItemGroup>
     <ClCompile Include="category.cpp" />
     <ClCompile Include="dashboard.cpp" />
+    <ClCompile Include="EditProductForm.cpp" />
     <ClCompile Include="home.cpp" />
+    <ClCompile Include="InputDialog.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="db.cpp" />
     <ClCompile Include="product.cpp" />
     <ClCompile Include="productsearchform.cpp" />
+    <ClCompile Include="ReceiptForm.cpp" />
     <ClCompile Include="user.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -140,7 +144,13 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="db.h" />
+    <ClInclude Include="EditProductForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="home.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="InputDialog.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="inventory.h" />
@@ -151,6 +161,9 @@
     <ClInclude Include="productsearchform.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="ReceiptForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="user.h" />
   </ItemGroup>
@@ -158,14 +171,23 @@
     <EmbeddedResource Include="dashboard.resx">
       <DependentUpon>dashboard.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditProductForm.resx">
+      <DependentUpon>EditProductForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="home.resx">
       <DependentUpon>home.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputDialog.resx">
+      <DependentUpon>InputDialog.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="productsearchform.resx">
       <DependentUpon>productsearchform.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReceiptForm.resx">
+      <DependentUpon>ReceiptForm.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
