@@ -34,7 +34,9 @@ namespace test {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::Label^ label1;
+
+	protected:
+
 	protected:
 
 	private:
@@ -50,29 +52,19 @@ namespace test {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
-			// 
-			// label1
-			// 
-			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(107, 77);
-			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(31, 16);
-			this->label1->TabIndex = 0;
-			this->label1->Text = L"fuck";
 			// 
 			// Dashboard
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(282, 253);
-			this->Controls->Add(this->label1);
+			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(46)), static_cast<System::Int32>(static_cast<System::Byte>(46)),
+				static_cast<System::Int32>(static_cast<System::Byte>(46)));
+			this->ClientSize = System::Drawing::Size(1101, 562);
 			this->Name = L"Dashboard";
 			this->Text = L"Dashboard";
 			this->Load += gcnew System::EventHandler(this, &Dashboard::Dashboard_Load);
 			this->ResumeLayout(false);
-			this->PerformLayout();
 
 		}
 #pragma endregion
