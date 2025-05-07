@@ -7,7 +7,7 @@ using namespace System::Windows::Forms;
 void main(array<String^>^ args) {
 	 //use only if you want have changed the db structure
 	//DBHelper::CreateDatabaseIfNotExists("pharmacy.db");
-	// //dummy data for the products
+	// dummy data for the products Note: use it after creating the db otherwise you will face some issues
 	//ProductDBHelper::InsertDummyData();
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);

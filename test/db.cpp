@@ -58,10 +58,31 @@ void DBHelper::CreateDatabaseIfNotExists(String^ dbFile)
             "price REAL NOT NULL, "
             "count INTEGER NOT NULL, "
             "barcode TEXT, "
-            "FOREIGN KEY (category_id) REFERENCES categories(id), "
-            "FOREIGN KEY (inventory_id) REFERENCES inventory(id));";
+            "FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL, "
+            "FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE SET NULL);";
+
         command = gcnew SQLiteCommand(createProducts, connection);
         command->ExecuteNonQuery();
+
+        // Create sales table
+        String^ createSales = "CREATE TABLE IF NOT EXISTS sales ("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "date TEXT NOT NULL);";
+        command = gcnew SQLiteCommand(createSales, connection);
+        command->ExecuteNonQuery();
+
+        // Create sales_items table
+        String^ createSalesItems = "CREATE TABLE IF NOT EXISTS sales_items ("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "sale_id INTEGER NOT NULL, "
+            "product_id INTEGER NOT NULL, "
+            "quantity INTEGER NOT NULL, "
+            "total_price REAL NOT NULL, "
+            "FOREIGN KEY (sale_id) REFERENCES sales(id), "
+            "FOREIGN KEY (product_id) REFERENCES products(id));";
+        command = gcnew SQLiteCommand(createSalesItems, connection);
+        command->ExecuteNonQuery();
+
 
         connection->Close();
     }
