@@ -18,15 +18,13 @@ System::Void test::Login::button1_Click(System::Object^ sender, System::EventArg
         return;
     }
 
-    // Check against SQLite database
     if (UserDBHelper::ValidateUser(username, password)) {
         this->Hide();
 
-        // Show Dashboard
         home^ homepage = gcnew home();
         homepage->ShowDialog();
 
-        // Close the login form after dashboard is closed
+
         this->Close();
     }
     else {
@@ -34,19 +32,25 @@ System::Void test::Login::button1_Click(System::Object^ sender, System::EventArg
     }
 }
 
-
-System::Void test::Login::textBox1_TextChanged_1(System::Object^ sender, System::EventArgs^ e)
+System::Void test::Login::textBox1_TextChanged(System::Object^ sender, System::EventArgs^ e)
 {
-	if (textBox1->Text->Length < 3) {
-		textBox1->ForeColor = System::Drawing::Color::Red;
-	}
-	else {
-		textBox1->ForeColor = System::Drawing::Color::Black;
-	}
+    if (textBox1->Text->Length < 3) {
+        textBox1->ForeColor = System::Drawing::Color::Red;
+    }
+    else {
+        textBox1->ForeColor = System::Drawing::Color::Black;
+    }
 }
 
+System::Void test::Login::button2_Click(System::Object^ sender, System::EventArgs^ e)
+{
+    
+}
 
-System::Void test::Login::linkLabel1_LinkClicked_1(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e) {
-	MessageBox::Show("By using this app, you agree to the following terms and conditions...", "Terms and Conditions", MessageBoxButtons::OK, MessageBoxIcon::Information);
+System::Void test::Login::linkLabel1_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e) {
+    MessageBox::Show("By using this app, you agree to the following terms and conditions...", "Terms and Conditions", MessageBoxButtons::OK, MessageBoxIcon::Information);
+}
 
+System::Void test::Login::Login_Load(System::Object^ sender, System::EventArgs^ e) {
+    
 }

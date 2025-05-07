@@ -11,5 +11,6 @@ void main(array<String^>^ args) {
 	//ProductDBHelper::InsertDummyData();
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
+	//test::Login^ form = gcnew test::Login();
 	Application::Run(gcnew test::Login);
 }
