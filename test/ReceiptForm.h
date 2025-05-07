@@ -11,7 +11,6 @@ using namespace System::Collections::Generic;
 using namespace System::Drawing;
 using namespace System::Drawing::Drawing2D;
 
-// Custom Input Dialog with matching visual style
 public ref class CustomInputDialog : public Form
 {
 private:
@@ -107,7 +106,6 @@ private:
     }
 };
 
-// Receipt Preview Dialog
 public ref class ReceiptPreviewDialog : public Form
 {
 private:
@@ -448,7 +446,6 @@ private:
         previewToolTip->SetToolTip(previewReceiptBtn, "Preview the receipt");
         mainPanel->Controls->Add(previewReceiptBtn);
 
-        // Action Buttons (Bottom Row)
         purchaseBtn = gcnew Button();
         purchaseBtn->Text = "Purchase";
         purchaseBtn->Font = gcnew Drawing::Font("Segoe UI", 12, FontStyle::Bold);
@@ -561,7 +558,6 @@ private:
         e->Graphics->FillRectangle(brush, rect);
         Pen^ pen = gcnew Pen(Color::FromArgb(0, 80, 150));
         e->Graphics->DrawRectangle(pen, rect);
-        // Ensure text is drawn clearly
         TextRenderer::DrawText(e->Graphics, btn->Text, btn->Font, rect, btn->ForeColor, TextFormatFlags::HorizontalCenter | TextFormatFlags::VerticalCenter);
     }
 
@@ -653,7 +649,7 @@ private:
 
     void OnProductGridCellClick(Object^ sender, DataGridViewCellEventArgs^ e)
     {
-        if (e->RowIndex >= 0 && e->ColumnIndex == 3) // Add button column
+        if (e->RowIndex >= 0 && e->ColumnIndex == 3) 
         {
             int productId = Convert::ToInt32(productsGrid->Rows[e->RowIndex]->Cells[0]->Value);
             Product^ p = ProductDBHelper::GetProductById(productId);
@@ -661,7 +657,7 @@ private:
             {
                 double price = p->Price;
                 if (repeatCustomerCheckBox->Checked)
-                    price *= 0.95; // Apply 5% discount
+                    price *= 0.95; 
 
                 receiptGrid->Rows->Add(p->Id, p->Name, price);
                 DataGridViewButtonCell^ removeBtn = gcnew DataGridViewButtonCell();
@@ -678,7 +674,7 @@ private:
 
     void OnReceiptGridCellClick(Object^ sender, DataGridViewCellEventArgs^ e)
     {
-        if (e->RowIndex >= 0 && e->ColumnIndex == 3) // Remove button column
+        if (e->RowIndex >= 0 && e->ColumnIndex == 3) 
         {
             double price = Convert::ToDouble(receiptGrid->Rows[e->RowIndex]->Cells[2]->Value);
             receiptGrid->Rows->RemoveAt(e->RowIndex);
@@ -822,7 +818,6 @@ private:
         String^ receiptText = GenerateReceiptText(userCash, customerName, customerPhone);
         receiptTextBox->Text = receiptText;
 
-        // Create a new sale
         Sale^ newSale = gcnew Sale();
         newSale->Total = totalPrice;
         newSale->Date = DateTime::Now.ToString();
@@ -830,7 +825,6 @@ private:
         newSale->CustomerName = customerName;
         int saleId = Sale::Add(newSale);
 
-        // Insert SaleItems
         for each (DataGridViewRow ^ row in receiptGrid->Rows)
         {
             if (row->IsNewRow) continue;
