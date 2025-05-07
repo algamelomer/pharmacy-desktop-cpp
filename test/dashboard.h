@@ -1,9 +1,7 @@
 ﻿#pragma once
 #include "product.h"
-#include "EditProductForm.h"
 
 namespace ProductApp {
-
     using namespace System;
     using namespace System::Windows::Forms;
     using namespace System::Collections::Generic;
@@ -21,7 +19,6 @@ namespace ProductApp {
         Label^ titleLabel;
         Label^ separator;
 
-        // Original color for hover effect
         Color originalBtnAddBackColor;
 
     public:
@@ -135,12 +132,10 @@ namespace ProductApp {
             dataGrid->CellClick += gcnew DataGridViewCellEventHandler(this, &ProductForm::DataGrid_CellClick);
             this->Controls->Add(dataGrid);
 
-            // Tab indices
             searchBox->TabIndex = 0;
             btnAdd->TabIndex = 1;
             dataGrid->TabIndex = 2;
 
-            // Resize event
             this->Resize += gcnew EventHandler(this, &ProductForm::OnResize);
 
             LoadProducts("");
@@ -159,7 +154,6 @@ namespace ProductApp {
             dataGrid->Rows->Clear();
             dataGrid->Columns->Clear();
 
-            // Define columns
             dataGrid->Columns->Add("Id", "ID");
             dataGrid->Columns->Add("Name", "Name");
             dataGrid->Columns->Add("CategoryId", "Category ID");
@@ -170,7 +164,6 @@ namespace ProductApp {
             dataGrid->Columns->Add("update", "Update");
             dataGrid->Columns->Add("delete", "Delete");
 
-            // Set column alignments
             dataGrid->Columns["Id"]->DefaultCellStyle->Alignment = DataGridViewContentAlignment::MiddleCenter;
             dataGrid->Columns["CategoryId"]->DefaultCellStyle->Alignment = DataGridViewContentAlignment::MiddleCenter;
             dataGrid->Columns["InventoryId"]->DefaultCellStyle->Alignment = DataGridViewContentAlignment::MiddleCenter;
@@ -178,11 +171,9 @@ namespace ProductApp {
             dataGrid->Columns["Count"]->DefaultCellStyle->Alignment = DataGridViewContentAlignment::MiddleCenter;
             dataGrid->Columns["Barcode"]->DefaultCellStyle->Alignment = DataGridViewContentAlignment::MiddleLeft;
 
-            // Set button column widths
             dataGrid->Columns["update"]->Width = 80;
             dataGrid->Columns["delete"]->Width = 80;
 
-            // Populate rows
             for each (Product ^ p in products)
             {
                 dataGrid->Rows->Add(p->Id, p->Name, p->CategoryId, p->InventoryId, p->Price, p->Count, p->Barcode);
@@ -324,7 +315,6 @@ namespace ProductApp {
             }
         }
 
-        // Retry helper functions for database operations
         List<Product^>^ RetrySearchProductsByName(String^ name)
         {
             int maxRetries = 3;
@@ -449,5 +439,244 @@ namespace ProductApp {
             }
             return false;
         }
+
+    private: 
+        ref class EditProductForm : public Form
+        {
+        private:
+            Label^ lblId;
+            TextBox^ txtId;
+            Label^ lblName;
+            TextBox^ txtName;
+            Label^ lblCategoryId;
+            TextBox^ txtCategoryId;
+            Label^ lblInventoryId;
+            TextBox^ txtInventoryId;
+            Label^ lblPrice;
+            TextBox^ txtPrice;
+            Label^ lblCount;
+            TextBox^ txtCount;
+            Label^ lblBarcode;
+            TextBox^ txtBarcode;
+            Button^ btnSave;
+            Button^ btnCancel;
+            Product^ product;
+
+            Color originalBtnSaveBackColor;
+            Color originalBtnCancelBackColor;
+
+        public:
+            property Product^ UpdatedProduct {
+                Product^ get() {
+                    return product;
+                }
+            }
+
+            EditProductForm()
+            {
+                InitializeComponent();
+                product = gcnew Product();
+            }
+
+            EditProductForm(Product^ existingProduct)
+            {
+                InitializeComponent();
+                product = existingProduct; 
+                LoadProductData();
+            }
+
+        private:
+            void InitializeComponent()
+            {
+                this->Text = "Edit Product";
+                this->Width = 400;
+                this->Height = 500;
+                this->BackColor = Color::FromArgb(46, 46, 46);
+                this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
+                this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
+                this->MaximizeBox = false;
+                this->StartPosition = FormStartPosition::CenterParent;
+                this->Padding = Windows::Forms::Padding(20);
+                this->Font = gcnew Drawing::Font("Segoe UI", 10);
+
+                lblId = gcnew Label();
+                lblId->Text = "ID:";
+                lblId->ForeColor = Color::White;
+                lblId->Location = Point(20, 20);
+                lblId->Width = 100;
+                this->Controls->Add(lblId);
+
+                txtId = gcnew TextBox();
+                txtId->Location = Point(130, 20);
+                txtId->Width = 200;
+                txtId->BackColor = Color::FromArgb(60, 60, 60);
+                txtId->ForeColor = Color::White;
+                txtId->ReadOnly = true;
+                this->Controls->Add(txtId);
+
+                // Name Label and TextBox
+                lblName = gcnew Label();
+                lblName->Text = "Name:";
+                lblName->ForeColor = Color::White;
+                lblName->Location = Point(20, 60);
+                lblName->Width = 100;
+                this->Controls->Add(lblName);
+
+                txtName = gcnew TextBox();
+                txtName->Location = Point(130, 60);
+                txtName->Width = 200;
+                txtName->BackColor = Color::FromArgb(60, 60, 60);
+                txtName->ForeColor = Color::White;
+                this->Controls->Add(txtName);
+
+                // Category ID Label and TextBox
+                lblCategoryId = gcnew Label();
+                lblCategoryId->Text = "Category ID:";
+                lblCategoryId->ForeColor = Color::White;
+                lblCategoryId->Location = Point(20, 100);
+                lblCategoryId->Width = 100;
+                this->Controls->Add(lblCategoryId);
+
+                txtCategoryId = gcnew TextBox();
+                txtCategoryId->Location = Point(130, 100);
+                txtCategoryId->Width = 200;
+                txtCategoryId->BackColor = Color::FromArgb(60, 60, 60);
+                txtCategoryId->ForeColor = Color::White;
+                this->Controls->Add(txtCategoryId);
+
+                // Inventory ID Label and TextBox
+                lblInventoryId = gcnew Label();
+                lblInventoryId->Text = "Inventory ID:";
+                lblInventoryId->ForeColor = Color::White;
+                lblInventoryId->Location = Point(20, 140);
+                lblInventoryId->Width = 100;
+                this->Controls->Add(lblInventoryId);
+
+                txtInventoryId = gcnew TextBox();
+                txtInventoryId->Location = Point(130, 140);
+                txtInventoryId->Width = 200;
+                txtInventoryId->BackColor = Color::FromArgb(60, 60, 60);
+                txtInventoryId->ForeColor = Color::White;
+                this->Controls->Add(txtInventoryId);
+
+                // Price Label and TextBox
+                lblPrice = gcnew Label();
+                lblPrice->Text = "Price:";
+                lblPrice->ForeColor = Color::White;
+                lblPrice->Location = Point(20, 180);
+                lblPrice->Width = 100;
+                this->Controls->Add(lblPrice);
+
+                txtPrice = gcnew TextBox();
+                txtPrice->Location = Point(130, 180);
+                txtPrice->Width = 200;
+                txtPrice->BackColor = Color::FromArgb(60, 60, 60);
+                txtPrice->ForeColor = Color::White;
+                this->Controls->Add(txtPrice);
+
+                // Count Label and TextBox
+                lblCount = gcnew Label();
+                lblCount->Text = "Count:";
+                lblCount->ForeColor = Color::White;
+                lblCount->Location = Point(20, 220);
+                lblCount->Width = 100;
+                this->Controls->Add(lblCount);
+
+                txtCount = gcnew TextBox();
+                txtCount->Location = Point(130, 220);
+                txtCount->Width = 200;
+                txtCount->BackColor = Color::FromArgb(60, 60, 60);
+                txtCount->ForeColor = Color::White;
+                this->Controls->Add(txtCount);
+
+                // Barcode Label and TextBox
+                lblBarcode = gcnew Label();
+                lblBarcode->Text = "Barcode:";
+                lblBarcode->ForeColor = Color::White;
+                lblBarcode->Location = Point(20, 260);
+                lblBarcode->Width = 100;
+                this->Controls->Add(lblBarcode);
+
+                txtBarcode = gcnew TextBox();
+                txtBarcode->Location = Point(130, 260);
+                txtBarcode->Width = 200;
+                txtBarcode->BackColor = Color::FromArgb(60, 60, 60);
+                txtBarcode->ForeColor = Color::White;
+                this->Controls->Add(txtBarcode);
+
+                // Save Button
+                btnSave = gcnew Button();
+                btnSave->Text = "Save";
+                btnSave->Font = gcnew Drawing::Font("Segoe UI", 10, FontStyle::Bold);
+                btnSave->Location = Point(130, 320);
+                btnSave->Width = 100;
+                btnSave->Height = 40;
+                btnSave->BackColor = Color::FromArgb(0, 120, 215);
+                btnSave->ForeColor = Color::White;
+                btnSave->FlatStyle = FlatStyle::Flat;
+                btnSave->FlatAppearance->BorderSize = 0;
+                btnSave->FlatAppearance->MouseOverBackColor = Color::FromArgb(0, 100, 180);
+                originalBtnSaveBackColor = btnSave->BackColor;
+                btnSave->Click += gcnew EventHandler(this, &EditProductForm::BtnSave_Click);
+                this->Controls->Add(btnSave);
+
+                // Cancel Button
+                btnCancel = gcnew Button();
+                btnCancel->Text = "Cancel";
+                btnCancel->Font = gcnew Drawing::Font("Segoe UI", 10, FontStyle::Bold);
+                btnCancel->Location = Point(240, 320);
+                btnCancel->Width = 100;
+                btnCancel->Height = 40;
+                btnCancel->BackColor = Color::FromArgb(255, 80, 80);
+                btnCancel->ForeColor = Color::White;
+                btnCancel->FlatStyle = FlatStyle::Flat;
+                btnCancel->FlatAppearance->BorderSize = 0;
+                btnCancel->FlatAppearance->MouseOverBackColor = Color::FromArgb(200, 60, 60);
+                originalBtnCancelBackColor = btnCancel->BackColor;
+                btnCancel->Click += gcnew EventHandler(this, &EditProductForm::BtnCancel_Click);
+                this->Controls->Add(btnCancel);
+            }
+
+            void LoadProductData()
+            {
+                if (product != nullptr)
+                {
+                    txtId->Text = product->Id.ToString();
+                    txtName->Text = product->Name;
+                    txtCategoryId->Text = product->CategoryId.ToString();
+                    txtInventoryId->Text = product->InventoryId.ToString();
+                    txtPrice->Text = Convert::ToString(product->Price); 
+                    txtCount->Text = product->Count.ToString();
+                    txtBarcode->Text = product->Barcode;
+                }
+            }
+
+            void BtnSave_Click(Object^ sender, EventArgs^ e)
+            {
+                try
+                {
+                    product->Id = Convert::ToInt32(txtId->Text);
+                    product->Name = txtName->Text;
+                    product->CategoryId = Convert::ToInt32(txtCategoryId->Text);
+                    product->InventoryId = Convert::ToInt32(txtInventoryId->Text);
+                    product->Price = Convert::ToDouble(txtPrice->Text); 
+                    product->Count = Convert::ToInt32(txtCount->Text);
+                    product->Barcode = txtBarcode->Text;
+
+                    this->DialogResult = System::Windows::Forms::DialogResult::OK;
+                    this->Close();
+                }
+                catch (Exception^ ex)
+                {
+                    MessageBox::Show("Invalid input: " + ex->Message, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+                }
+            }
+
+            void BtnCancel_Click(Object^ sender, EventArgs^ e)
+            {
+                this->DialogResult = System::Windows::Forms::DialogResult::Cancel;
+                this->Close();
+            }
+        };
     };
 }
