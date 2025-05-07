@@ -7,7 +7,10 @@ public ref class Sale
 {
 public:
     int Id;
+    double Total;
     String^ Date;
+	String^ CustomerPhone;
+	String^ CustomerName;
 
     // CRUD Operations
     static int Add(Sale^ sale);
@@ -15,4 +18,5 @@ public:
     static Sale^ GetById(int id);
     static bool Edit(Sale^ sale);
     static bool Delete(int id);
+    static Sale^ GetByCustomerPhone(String^ phone);
 };

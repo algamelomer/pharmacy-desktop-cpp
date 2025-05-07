@@ -64,10 +64,20 @@ void DBHelper::CreateDatabaseIfNotExists(String^ dbFile)
         command = gcnew SQLiteCommand(createProducts, connection);
         command->ExecuteNonQuery();
 
+        String^ createCustomer = "CREATE TABLE IF NOT EXISTS customers("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            "name TEXT NOT NULL,"
+            "phone TEXT NOT NULL UNIQUE);";
+		command = gcnew SQLiteCommand(createCustomer, connection);
+        command->ExecuteNonQuery();
+
         // Create sales table
         String^ createSales = "CREATE TABLE IF NOT EXISTS sales ("
             "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-            "date TEXT NOT NULL);";
+            "date TEXT NOT NULL, "
+            "customer_id INTEGER, "
+            "FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE SET NULL);";
+
         command = gcnew SQLiteCommand(createSales, connection);
         command->ExecuteNonQuery();
 

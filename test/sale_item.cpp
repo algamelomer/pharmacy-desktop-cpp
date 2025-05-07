@@ -11,12 +11,12 @@ int SaleItem::Add(SaleItem^ saleItem)
     SQLiteConnection^ conn = gcnew SQLiteConnection(connString);
     conn->Open();
 
-    String^ query = "INSERT INTO sale_items (sale_id, product_name, quantity, price) VALUES (@sale_id, @product_name, @quantity, @price); SELECT last_insert_rowid();";
+    String^ query = "INSERT INTO sales_items (sale_id, product_id, quantity, total_price) VALUES (@sale_id, @product_id, @quantity, @total_price); SELECT last_insert_rowid();";
     SQLiteCommand^ cmd = gcnew SQLiteCommand(query, conn);
     cmd->Parameters->AddWithValue("@sale_id", saleItem->SaleId);
-    cmd->Parameters->AddWithValue("@product_name", saleItem->ProductName);
+    cmd->Parameters->AddWithValue("@product_id", saleItem->ProductId);
     cmd->Parameters->AddWithValue("@quantity", saleItem->Quantity);
-    cmd->Parameters->AddWithValue("@price", saleItem->Price);
+    cmd->Parameters->AddWithValue("@total_price", saleItem->total_price);
 
     int saleItemId = Convert::ToInt32(cmd->ExecuteScalar());
     conn->Close();
@@ -30,7 +30,7 @@ List<SaleItem^>^ SaleItem::GetAllBySaleId(int saleId)  // Correct definition
     SQLiteConnection^ conn = gcnew SQLiteConnection(connString);
     conn->Open();
 
-    String^ query = "SELECT id, sale_id, product_name, quantity, price FROM sale_items WHERE sale_id = @sale_id";
+    String^ query = "SELECT id, sale_id, product_id, quantity, total_price FROM sales_items WHERE sale_id = @sale_id";
     SQLiteCommand^ cmd = gcnew SQLiteCommand(query, conn);
     cmd->Parameters->AddWithValue("@sale_id", saleId);
     SQLiteDataReader^ reader = cmd->ExecuteReader();
@@ -40,9 +40,9 @@ List<SaleItem^>^ SaleItem::GetAllBySaleId(int saleId)  // Correct definition
         SaleItem^ item = gcnew SaleItem();
         item->Id = reader->GetInt32(0);
         item->SaleId = reader->GetInt32(1);
-        item->ProductName = reader->GetString(2);
+        item->ProductId = reader->GetInt32(2);
         item->Quantity = reader->GetInt32(3);
-        item->Price = reader->GetDouble(4);
+        item->total_price = reader->GetDouble(4);
         saleItems->Add(item);
     }
 
@@ -58,7 +58,7 @@ SaleItem^ SaleItem::GetById(int id)
     SQLiteConnection^ conn = gcnew SQLiteConnection(connString);
     conn->Open();
 
-    String^ query = "SELECT id, sale_id, product_name, quantity, price FROM sale_items WHERE id = @id";
+    String^ query = "SELECT id, sale_id, product_id, quantity, total_price FROM sales_items WHERE id = @id";
     SQLiteCommand^ cmd = gcnew SQLiteCommand(query, conn);
     cmd->Parameters->AddWithValue("@id", id);
     SQLiteDataReader^ reader = cmd->ExecuteReader();
@@ -68,9 +68,9 @@ SaleItem^ SaleItem::GetById(int id)
         saleItem = gcnew SaleItem();
         saleItem->Id = reader->GetInt32(0);
         saleItem->SaleId = reader->GetInt32(1);
-        saleItem->ProductName = reader->GetString(2);
+        saleItem->ProductId = reader->GetInt32(2);
         saleItem->Quantity = reader->GetInt32(3);
-        saleItem->Price = reader->GetDouble(4);
+        saleItem->total_price = reader->GetDouble(4);
     }
 
     reader->Close();
@@ -84,13 +84,13 @@ bool SaleItem::Edit(SaleItem^ saleItem)
     SQLiteConnection^ conn = gcnew SQLiteConnection(connString);
     conn->Open();
 
-    String^ query = "UPDATE sale_items SET sale_id = @sale_id, product_name = @product_name, quantity = @quantity, price = @price WHERE id = @id";
+    String^ query = "UPDATE sales_items SET sale_id = @sale_id, product_id = @product_id, quantity = @quantity, total_price = @total_price WHERE id = @id";
     SQLiteCommand^ cmd = gcnew SQLiteCommand(query, conn);
     cmd->Parameters->AddWithValue("@id", saleItem->Id);
     cmd->Parameters->AddWithValue("@sale_id", saleItem->SaleId);
-    cmd->Parameters->AddWithValue("@product_name", saleItem->ProductName);
+    cmd->Parameters->AddWithValue("@product_id", saleItem->ProductId);
     cmd->Parameters->AddWithValue("@quantity", saleItem->Quantity);
-    cmd->Parameters->AddWithValue("@price", saleItem->Price);
+    cmd->Parameters->AddWithValue("@total_price", saleItem->total_price);
 
     int rowsAffected = cmd->ExecuteNonQuery();
     conn->Close();
@@ -103,7 +103,7 @@ bool SaleItem::Delete(int id)
     SQLiteConnection^ conn = gcnew SQLiteConnection(connString);
     conn->Open();
 
-    String^ query = "DELETE FROM sale_items WHERE id = @id";
+    String^ query = "DELETE FROM sales_items WHERE id = @id";
     SQLiteCommand^ cmd = gcnew SQLiteCommand(query, conn);
     cmd->Parameters->AddWithValue("@id", id);
 

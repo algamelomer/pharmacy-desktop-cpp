@@ -69,6 +69,12 @@
     <ClCompile Include="sale_item.cpp">
       <Filter>Data base</Filter>
     </ClCompile>
+    <ClCompile Include="customer.cpp">
+      <Filter>Data base</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomerTypeDialog.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Login.h">
@@ -115,6 +121,12 @@
     </ClInclude>
     <ClInclude Include="sale_item.h">
       <Filter>Data base</Filter>
+    </ClInclude>
+    <ClInclude Include="customer.h">
+      <Filter>Data base</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomerTypeDialog.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

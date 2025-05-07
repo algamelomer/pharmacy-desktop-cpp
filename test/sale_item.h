@@ -8,9 +8,9 @@ public ref class SaleItem
 public:
     int Id;
     int SaleId;
-    String^ ProductName;
+	int ProductId; 
     int Quantity;
-    double Price;
+    double total_price;
 
     // CRUD Operations
     static int Add(SaleItem^ saleItem);

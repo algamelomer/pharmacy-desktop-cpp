@@ -2,6 +2,10 @@
 
 #include "Product.h"
 #include "InputDialog.h"
+#include "sale.h"
+#include "sale_item.h"
+#include "CustomerTypeDialog.h"
+
 using namespace System;
 using namespace System::Windows::Forms;
 using namespace System::Collections::Generic;
@@ -10,6 +14,12 @@ using namespace System::Drawing;
 public ref class ReceiptForm : public Form
 {
 private:
+    Button^ newCustomerBtn;
+    Button^ oldCustomerBtn;
+    TextBox^ customerNameTextBox;
+    TextBox^ customerPhoneTextBox;
+    Label^ customerNameLabel;
+    Label^ customerPhoneLabel;
     TextBox^ searchBox;
     DataGridView^ productsGrid;
     DataGridView^ receiptGrid;
@@ -17,6 +27,8 @@ private:
     //Button^ printBtn;
     Label^ totalLabel;
     double totalPrice = 0.0;
+
+    String^ storedReceiptText; // To store the receipt text for printing
 
 public:
     ReceiptForm()
@@ -41,8 +53,8 @@ private:
         this->Width = 800;
         this->Height = 600;
 
-		int gridWidth = this->ClientSize.Width;
-		int gridHeight = this->ClientSize.Height;
+        int gridWidth = this->ClientSize.Width;
+        int gridHeight = this->ClientSize.Height;
 
         searchBox = gcnew TextBox();
         searchBox->Top = 10;
@@ -85,7 +97,7 @@ private:
         this->Controls->Add(purchaseBtn);
 
         totalLabel = gcnew Label();
-        totalLabel->Text = "Total: $0.00";
+        totalLabel->Text = "Total: 0.00 L.E";
         totalLabel->Top = 510;
         totalLabel->Left = 250;
         totalLabel->Width = 200;
@@ -130,13 +142,12 @@ private:
             if (p)
             {
                 receiptGrid->Rows->Add(p->Id, p->Name, p->Price);
-				DataGridViewButtonCell^ removeBtn = gcnew DataGridViewButtonCell();
-				removeBtn->Value = "Remove";
-				receiptGrid->Rows[receiptGrid->Rows->Count - 1]->Cells["Remove"] = removeBtn;
-
+                DataGridViewButtonCell^ removeBtn = gcnew DataGridViewButtonCell();
+                removeBtn->Value = "Remove";
+                receiptGrid->Rows[receiptGrid->Rows->Count - 1]->Cells["Remove"] = removeBtn;
 
                 totalPrice += p->Price;
-                totalLabel->Text = "Total: $" + totalPrice.ToString("F2");
+                totalLabel->Text = "Total: " + totalPrice.ToString("F2") + " L.E";
             }
         }
     }
@@ -148,135 +159,191 @@ private:
             double price = Convert::ToDouble(receiptGrid->Rows[e->RowIndex]->Cells[2]->Value);
             receiptGrid->Rows->RemoveAt(e->RowIndex);
             totalPrice -= price;
-            totalLabel->Text = "Total: $" + totalPrice.ToString("F2");
+            totalLabel->Text = "Total: " + totalPrice.ToString("F2") + " L.E";
         }
     }
 
-    void Purchase(Object^ sender, EventArgs^ e)  
-       {  
-           if (receiptGrid->Rows->Count == 0)  
-           {  
-               MessageBox::Show("No items in the receipt!", "Error");  
-               return;  
-           }  
-
-           String^ input = InputDialog::Show("Enter cash amount:", "Payment", "0");  
-           if (String::IsNullOrWhiteSpace(input))  
-           {  
-               MessageBox::Show("No input entered.", "Error");  
-               return;  
-           }  
-
-           double userCash;  
-           if (!Double::TryParse(input, userCash))  
-           {  
-               MessageBox::Show("Invalid cash input.", "Error");  
-               return;  
-           }  
-
-           if (userCash < totalPrice)  
-           {  
-               MessageBox::Show("Insufficient funds!", "Error");  
-               return;  
-           }  
-
-           String^ receiptText = GenerateReceiptText(userCash);  
-
-           // Create a custom form for the receipt message box with a Print button  
-           Form^ receiptForm = gcnew Form();  
-           receiptForm->Text = "Receipt";  
-           receiptForm->Width = 400;  
-           receiptForm->Height = 300;  
-
-           TextBox^ receiptBox = gcnew TextBox();  
-           receiptBox->Multiline = true;  
-           receiptBox->ReadOnly = true;  
-           receiptBox->Dock = DockStyle::Top;  
-           receiptBox->Height = 200;  
-           receiptBox->Text = receiptText;  
-           receiptForm->Controls->Add(receiptBox);  
-
-           Button^ printButton = gcnew Button();  
-           printButton->Text = "Print";  
-           printButton->Dock = DockStyle::Bottom;  
-           printButton->Click += gcnew EventHandler(this, &ReceiptForm::PrintReceipt);  
-           receiptForm->Controls->Add(printButton);  
-
-           Button^ closeButton = gcnew Button();  
-           closeButton->Text = "Close";  
-           closeButton->Dock = DockStyle::Bottom;  
-           //closeButton->Click += gcnew EventHandler(this, &ReceiptForm::Close);
-        // Fix for the invalid delegate initializer and related errors
-
-        // Update the Close button's event handler assignment
-        closeButton->Click += gcnew EventHandler(this, &ReceiptForm::OnCloseButtonClick);
-
-        // Add the OnCloseButtonClick method to handle the Close button click event
-
-     
-           receiptForm->Controls->Add(closeButton);
-
-           // Store the receipt text for printing  
-           this->storedReceiptText = receiptText;  
-
-           receiptForm->ShowDialog();  
-
-           receiptGrid->Rows->Clear();  
-           totalPrice = 0.0;  
-           totalLabel->Text = "Total: $0.00";  
-       }
-
-    void PrintReceipt(Object^ sender, EventArgs^ e)  
-    {  
-       if (receiptGrid->Rows->Count == 0)  
-       {  
-           MessageBox::Show("No items to print.", "Error");  
-           return;  
-       }  
-
-       double fakeCash = totalPrice;  
-       String^ receiptText = GenerateReceiptText(fakeCash);  
-
-       System::Drawing::Printing::PrintDocument^ printDoc = gcnew System::Drawing::Printing::PrintDocument();  
-       printDoc->PrintPage += gcnew System::Drawing::Printing::PrintPageEventHandler(this, &ReceiptForm::OnPrintPage);  
-
-       // Store receiptText in a member variable to avoid lambda capture issues  
-       this->storedReceiptText = receiptText;  
-
-       PrintDialog^ printDialog = gcnew PrintDialog();  
-       printDialog->Document = printDoc;  
-       if (printDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)  
-       {  
-           printDoc->Print();  
-       }  
-    }  
-
-    void OnPrintPage(Object^ sender, System::Drawing::Printing::PrintPageEventArgs^ e)  
-    {  
-       e->Graphics->DrawString(this->storedReceiptText, gcnew System::Drawing::Font("Consolas", 12),  
-           Brushes::Black, PointF(100, 100));  
-    }  
-
-    // Add a private member variable to store the receipt text  
-    private:  
-       String^ storedReceiptText;
-
-    String^ GenerateReceiptText(double userCash)
+    void Purchase(Object^ sender, EventArgs^ e)
     {
-        String^ receiptText = "=========== RECEIPT ===========\r\n";
+        
+        if (receiptGrid->Rows->Count == 0)
+        {
+            MessageBox::Show("No items in the receipt!", "Error");
+            return;
+        }
+
+        // Show customer type selection form
+        CustomerTypeDialog^ typeDialog = gcnew CustomerTypeDialog();
+        if (typeDialog->ShowDialog() != System::Windows::Forms::DialogResult::OK)
+        {
+            MessageBox::Show("Customer type selection cancelled.", "Error");
+            return;
+        }
+        String^ customerType = typeDialog->SelectedCustomerType;
+
+        String^ customerName = "";
+        String^ customerPhone = "";
+
+        if (customerType->ToLower() == "new")
+        {
+            String^ customerName = InputDialog::Show("Enter customer's name:", "New Customer", "");  
+            String^ customerPhone = InputDialog::Show("Enter customer's phone number:", "New Customer", "");
+
+            if (String::IsNullOrWhiteSpace(customerName) || String::IsNullOrWhiteSpace(customerPhone))
+            {
+                MessageBox::Show("Name or Phone cannot be empty.", "Error");
+                return;
+            }
+        }
+        else if (customerType->ToLower() == "old")
+        {
+            customerPhone = InputDialog::Show("Enter customer's phone number:", "Old Customer", "");
+
+            if (String::IsNullOrWhiteSpace(customerPhone))
+            {
+                MessageBox::Show("Phone number cannot be empty.", "Error");
+                return;
+            }
+
+            // Search for the customer by phone number
+            Sale^ existingCustomer = Sale::GetByCustomerPhone(customerPhone);
+            if (existingCustomer == nullptr)
+            {
+                MessageBox::Show("Customer not found.", "Error");
+                return;
+            }
+            customerName = existingCustomer->CustomerName;
+        }
+
+        // Proceed with the payment
+        String^ input = InputDialog::Show("Enter cash amount (L.E): ", "Payment", "0");
+        if (String::IsNullOrWhiteSpace(input))
+        {
+            MessageBox::Show("No input entered.", "Error");
+            return;
+        }
+
+        double userCash;
+        if (!Double::TryParse(input, userCash))
+        {
+            MessageBox::Show("Invalid cash input.", "Error");
+            return;
+        }
+
+        if (userCash < totalPrice)
+        {
+            MessageBox::Show("Insufficient funds!", "Error");
+            return;
+        }
+
+        String^ receiptText = GenerateReceiptText(userCash, customerName, customerPhone);
+
+        // Create a custom form for the receipt message box with a Print button  
+        Form^ receiptForm = gcnew Form();
+        receiptForm->Text = "Receipt";
+        receiptForm->Width = 400;
+        receiptForm->Height = 300;
+
+        TextBox^ receiptBox = gcnew TextBox();
+        receiptBox->Multiline = true;
+        receiptBox->ReadOnly = true;
+        receiptBox->Dock = DockStyle::Top;
+        receiptBox->Height = 200;
+        receiptBox->Text = receiptText;
+        receiptForm->Controls->Add(receiptBox);
+
+        Button^ printButton = gcnew Button();
+        printButton->Text = "Print";
+        printButton->Dock = DockStyle::Bottom;
+        printButton->Click += gcnew EventHandler(this, &ReceiptForm::PrintReceipt);
+        receiptForm->Controls->Add(printButton);
+
+        Button^ closeButton = gcnew Button();
+        closeButton->Text = "Close";
+        closeButton->Dock = DockStyle::Bottom;
+        closeButton->Click += gcnew EventHandler(this, &ReceiptForm::OnCloseButtonClick);
+        receiptForm->Controls->Add(closeButton);
+
+        // Create a new sale
+        Sale^ newSale = gcnew Sale();
+        newSale->Total = totalPrice;
+        newSale->Date = DateTime::Now.ToString();
+        newSale->CustomerPhone = customerPhone;
+        newSale->CustomerName = customerName;
+        int saleId = Sale::Add(newSale); // insert and get Sale ID
+
+        // Insert SaleItems
         for each (DataGridViewRow ^ row in receiptGrid->Rows)
         {
             if (row->IsNewRow) continue;
-            receiptText += row->Cells[1]->Value->ToString() + " - $" + row->Cells[2]->Value->ToString() + "\r\n";
+
+            SaleItem^ item = gcnew SaleItem();
+            item->SaleId = saleId;
+            item->ProductId = Convert::ToInt32(row->Cells[0]->Value);
+            item->Quantity = 1; // assuming always 1 for now
+            item->total_price = Convert::ToDouble(row->Cells[2]->Value);
+
+            SaleItem::Add(item);
         }
+
+        receiptForm->ShowDialog();
+
+        receiptGrid->Rows->Clear();
+        totalPrice = 0.0;
+        totalLabel->Text = "Total: " + totalPrice.ToString("F2") + " L.E";
+    }
+
+    void PrintReceipt(Object^ sender, EventArgs^ e)
+    {
+        if (receiptGrid->Rows->Count == 0)
+        {
+            MessageBox::Show("No items to print.", "Error");
+            return;
+        }
+
+        double fakeCash = totalPrice;
+        String^ name = "test";
+        String^ phone = "+20";
+        String^ receiptText = GenerateReceiptText(fakeCash, name, phone);
+
+        System::Drawing::Printing::PrintDocument^ printDoc = gcnew System::Drawing::Printing::PrintDocument();
+        printDoc->PrintPage += gcnew System::Drawing::Printing::PrintPageEventHandler(this, &ReceiptForm::OnPrintPage);
+
+        // Store receiptText in a member variable to avoid lambda capture issues  
+        this->storedReceiptText = receiptText;
+
+        PrintDialog^ printDialog = gcnew PrintDialog();
+        printDialog->Document = printDoc;
+        if (printDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+        {
+            printDoc->Print();
+        }
+    }
+
+    void OnPrintPage(Object^ sender, System::Drawing::Printing::PrintPageEventArgs^ e)
+    {
+        e->Graphics->DrawString(this->storedReceiptText, gcnew System::Drawing::Font("Consolas", 12),
+            Brushes::Black, PointF(100, 100));
+    }
+
+    String^ GenerateReceiptText(double userCash, String^ customerName, String^ customerPhone)
+    {
+        String^ receiptText = "=========== RECEIPT ===========\r\n";
+        receiptText += "Customer: " + customerName + "\r\n";
+        receiptText += "Phone: " + customerPhone + "\r\n";
         receiptText += "--------------------------------\r\n";
-        receiptText += "Total: $" + totalPrice.ToString("F2") + "\r\n";
-        receiptText += "Cash:  $" + userCash.ToString("F2") + "\r\n";
-        receiptText += "Change: $" + (userCash - totalPrice).ToString("F2") + "\r\n";
-        receiptText += "================================\r\n";
-		receiptText += "Thank you for your purchase!\r\n";
-		receiptText += "================================\r\n";
-		receiptText += "Please visit us again!\r\n";
+
+        for each (DataGridViewRow ^ row in receiptGrid->Rows)
+        {
+            if (row->IsNewRow) continue;
+            receiptText += row->Cells[1]->Value->ToString() + " - L.E " + row->Cells[2]->Value->ToString() + "\r\n";
+        }
+
+        receiptText += "--------------------------------\r\n";
+        receiptText += "Total: " + totalPrice.ToString("F2") +" L.E" + "\r\n";
+        receiptText += "Amount Paid: " + userCash.ToString("F2") + " L.E" + "\r\n";
+        receiptText += "Change: " + (userCash - totalPrice).ToString("F2") + " L.E" + "\r\n";
+        receiptText += "Thank you for shopping with us!\r\n";
         return receiptText;
     }
 };
