@@ -1,6 +1,7 @@
 ﻿#include "home.h"
 #include "Login.h"
 #include "ReceiptForm.h"
+#include "Dashboard.h"
 
 namespace test {
 
@@ -16,8 +17,6 @@ namespace test {
             pictureBox2->Visible = true;
             label3->Visible = true;
             pictureBox3->Visible = true;
-            label4->Visible = true;
-            pictureBox4->Visible = true;
             label5->Visible = true; 
             pictureBox5->Visible = true;
             label6->Visible = true;
@@ -34,8 +33,6 @@ namespace test {
             pictureBox2->Visible = true;
             label3->Visible = false;
             pictureBox3->Visible = true;
-            label4->Visible = false;
-            pictureBox4->Visible = true;
             label5->Visible = false; 
             pictureBox5->Visible = true;
             label6->Visible = false;
@@ -59,53 +56,38 @@ namespace test {
     System::Void home::add_item_panel_Click(System::Object^ sender, System::EventArgs^ e) {
         content_panel->Controls->Clear();
 
-        System::Windows::Forms::Label^ addItemLabel = gcnew System::Windows::Forms::Label();
-        addItemLabel->Text = L"Add Item Page";
-        addItemLabel->AutoSize = true;
-        addItemLabel->Font = gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Bold);
-        addItemLabel->Location = System::Drawing::Point(50, 50);
-        content_panel->Controls->Add(addItemLabel);
-    }
-
-    System::Void home::Remove_item_panel_Click(System::Object^ sender, System::EventArgs^ e) {
-        content_panel->Controls->Clear();
-
-        System::Windows::Forms::Label^ removeItemLabel = gcnew System::Windows::Forms::Label();
-        removeItemLabel->Text = L"Remove Item Page";
-        removeItemLabel->AutoSize = true;
-        removeItemLabel->Font = gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Bold);
-        removeItemLabel->Location = System::Drawing::Point(50, 50);
-        content_panel->Controls->Add(removeItemLabel);
-        List<int>^ purchasedIds = gcnew List<int>();
-        purchasedIds->Add(4);
-        purchasedIds->Add(3);
-        double userCash = 5000.0;
-        ReceiptForm^ receiptForm = gcnew ReceiptForm();
-        receiptForm->ShowDialog();
-
-
-    }
-
-    System::Void home::search_item_panel_Click(System::Object^ sender, System::EventArgs^ e) {
-        content_panel->Controls->Clear();
-
-        ProductSearchForm^ searchForm = gcnew ProductSearchForm();
-        searchForm->TopLevel = false;
-        searchForm->Dock = System::Windows::Forms::DockStyle::Fill;
-        searchForm->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
-        content_panel->Controls->Add(searchForm);
-        searchForm->Show();
-    }
-
-    System::Void home::dashboard_panel_Click(System::Object^ sender, System::EventArgs^ e) {
-        content_panel->Controls->Clear();
-
         ProductApp::ProductForm^ productPage = gcnew ProductApp::ProductForm();
         productPage->TopLevel = false;
         productPage->Dock = System::Windows::Forms::DockStyle::Fill;
         productPage->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
         content_panel->Controls->Add(productPage);
         productPage->Show();
+    }
+
+    System::Void home::Remove_item_panel_Click(System::Object^ sender, System::EventArgs^ e) {
+        content_panel->Controls->Clear();
+
+        // Create and configure the ReceiptForm
+        ReceiptForm^ receiptPage = gcnew ReceiptForm();
+        receiptPage->TopLevel = false;
+        receiptPage->Dock = System::Windows::Forms::DockStyle::Fill;
+        receiptPage->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
+
+        // Add to content panel
+        content_panel->Controls->Add(receiptPage);
+        receiptPage->Show();
+    }
+
+    System::Void home::dashboard_panel_Click(System::Object^ sender, System::EventArgs^ e) {
+        content_panel->Controls->Clear();
+
+        Dashboard^ dashboardpage = gcnew Dashboard();
+        dashboardpage->TopLevel = false;
+        dashboardpage->Dock = System::Windows::Forms::DockStyle::Fill;
+        dashboardpage->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
+
+        content_panel->Controls->Add(dashboardpage);
+        dashboardpage->Show();
 
     }
 

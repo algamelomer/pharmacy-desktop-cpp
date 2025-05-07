@@ -1,4 +1,5 @@
 #include "Login.h"
+#include "home.h"
 //#include "db.h"
 //#include "product.h"
 using namespace System;
@@ -12,5 +13,8 @@ void main(array<String^>^ args) {
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 	//test::Login^ form = gcnew test::Login();
-	Application::Run(gcnew test::Login);
+	// this sould be the main code
+	// 	Application::Run(gcnew test::Login);
+	// we run this now only for debugging faster
+	Application::Run(gcnew test::home);
 }

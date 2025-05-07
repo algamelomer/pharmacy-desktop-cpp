@@ -1,4 +1,4 @@
-﻿#pragma once
+﻿#pragma
 
 #include "Product.h"
 #include "sale.h"
@@ -649,7 +649,7 @@ private:
 
     void OnProductGridCellClick(Object^ sender, DataGridViewCellEventArgs^ e)
     {
-        if (e->RowIndex >= 0 && e->ColumnIndex == 3) 
+        if (e->RowIndex >= 0 && e->ColumnIndex == 3)
         {
             int productId = Convert::ToInt32(productsGrid->Rows[e->RowIndex]->Cells[0]->Value);
             Product^ p = ProductDBHelper::GetProductById(productId);
@@ -657,7 +657,7 @@ private:
             {
                 double price = p->Price;
                 if (repeatCustomerCheckBox->Checked)
-                    price *= 0.95; 
+                    price *= 0.95;
 
                 receiptGrid->Rows->Add(p->Id, p->Name, price);
                 DataGridViewButtonCell^ removeBtn = gcnew DataGridViewButtonCell();
@@ -674,7 +674,7 @@ private:
 
     void OnReceiptGridCellClick(Object^ sender, DataGridViewCellEventArgs^ e)
     {
-        if (e->RowIndex >= 0 && e->ColumnIndex == 3) 
+        if (e->RowIndex >= 0 && e->ColumnIndex == 3)
         {
             double price = Convert::ToDouble(receiptGrid->Rows[e->RowIndex]->Cells[2]->Value);
             receiptGrid->Rows->RemoveAt(e->RowIndex);

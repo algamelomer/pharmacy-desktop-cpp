@@ -127,7 +127,8 @@
     <ClCompile Include="category.cpp" />
     <ClCompile Include="customer.cpp" />
     <ClCompile Include="CustomerTypeDialog.cpp" />
-    <ClCompile Include="dashboard.cpp" />
+    <ClCompile Include="Dashboard.cpp" />
+    <ClCompile Include="medicine_management.cpp" />
     <ClCompile Include="EditProductForm.cpp" />
     <ClCompile Include="home.cpp" />
     <ClCompile Include="InputDialog.cpp" />
@@ -148,7 +149,10 @@
     <ClInclude Include="CustomerTypeDialog.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="dashboard.h">
+    <ClInclude Include="Dashboard.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="medicine_management.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="db.h" />
@@ -181,8 +185,11 @@
     <EmbeddedResource Include="CustomerTypeDialog.resx">
       <DependentUpon>CustomerTypeDialog.h</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="dashboard.resx">
-      <DependentUpon>dashboard.h</DependentUpon>
+    <EmbeddedResource Include="Dashboard.resx">
+      <DependentUpon>Dashboard.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="medicine_management.resx">
+      <DependentUpon>medicine_management.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditProductForm.resx">
       <DependentUpon>EditProductForm.h</DependentUpon>

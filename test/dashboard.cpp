@@ -1,2 +1,2 @@
-#include "dashboard.h"
+#include "Dashboard.h"
 
