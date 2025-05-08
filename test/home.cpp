@@ -4,6 +4,7 @@
 #include "Dashboard.h"
 #include "Category_form.h"
 #include "Inventory_form.h"
+#include "SupplierForm.h"
 
 using namespace ProductApp;
 
@@ -47,8 +48,9 @@ namespace test {
     }
 
     System::Void home::Home_panel_Click(System::Object^ sender, System::EventArgs^ e) {
-        /*content_panel->Controls->Clear();
 
+        /*=================     Welcome to the Home Page     ================= */
+        /*
         System::Windows::Forms::Label^ homeLabel = gcnew System::Windows::Forms::Label();
         homeLabel->Text = L"Welcome to the Home Page";
         homeLabel->AutoSize = true;
@@ -58,15 +60,22 @@ namespace test {
 
         content_panel->Controls->Clear();
 
-        // Create and configure the ReceiptForm
-        InventoryForm^ categoryPage = gcnew InventoryForm();
+        /*=================    Create and configure the ReceiptForm    ================= */
+        /*InventoryForm^ categoryPage = gcnew InventoryForm();
         categoryPage->TopLevel = false;
         categoryPage->Dock = System::Windows::Forms::DockStyle::Fill;
-        categoryPage->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
+        categoryPage->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;*/
 
-        // Add to content panel
-        content_panel->Controls->Add(categoryPage);
-        categoryPage->Show();
+        /*=================     Welcome to the Supplier Page     ================= */
+        SupplierForm^ supplierForm = gcnew SupplierForm();
+        supplierForm->TopLevel = false; 
+        supplierForm->Dock = DockStyle::Fill; 
+        supplierForm->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
+
+
+         /*=================     Add to content panel     ================= */
+        content_panel->Controls->Add(supplierForm);
+        supplierForm->Show();
 
     }
 

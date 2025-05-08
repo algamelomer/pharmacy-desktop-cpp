@@ -117,7 +117,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\..\..\.nuget\packages\system.data.sqlite\1.0.119\System.Data.SQLite.dll</HintPath>
+      <HintPath>..\..\pharmacy-desktop-cpp - Copy\packages\System.Data.SQLite.1.0.119.0\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
@@ -144,6 +144,10 @@
     <ClCompile Include="ReceiptForm.cpp" />
     <ClCompile Include="sale.cpp" />
     <ClCompile Include="sale_item.cpp" />
+    <ClCompile Include="Supplier.cpp" />
+    <ClCompile Include="SupplierDBManage.cpp" />
+    <ClCompile Include="SupplierDialog.cpp" />
+    <ClCompile Include="SupplierForm.cpp" />
     <ClCompile Include="user.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +192,10 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="sale.h" />
     <ClInclude Include="sale_item.h" />
+    <ClInclude Include="Supplier.h" />
+    <ClInclude Include="SupplierDBManage.h" />
+    <ClInclude Include="SupplierDialog.h" />
+    <ClInclude Include="SupplierForm.h" />
     <ClInclude Include="user.h" />
   </ItemGroup>
   <ItemGroup>

@@ -93,6 +93,15 @@ void DBHelper::CreateDatabaseIfNotExists(String^ dbFile)
         command = gcnew SQLiteCommand(createSalesItems, connection);
         command->ExecuteNonQuery();
 
+        // Create suppliers table
+        String^ createSuppliers = "CREATE TABLE IF NOT EXISTS suppliers ("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "name TEXT NOT NULL, "
+            "company TEXT NOT NULL, "
+            "description TEXT, "
+            "phone TEXT NOT NULL UNIQUE);";
+        command = gcnew SQLiteCommand(createSuppliers, connection);
+        command->ExecuteNonQuery();
 
         connection->Close();
     }
