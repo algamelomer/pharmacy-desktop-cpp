@@ -2,6 +2,8 @@
 #include "home.h"
 //#include "db.h"
 //#include "product.h"
+#include "inventory.h"
+#include "category.h"
 using namespace System;
 using namespace System::Windows::Forms;
 [STAThread]
@@ -10,6 +12,9 @@ void main(array<String^>^ args) {
 	//DBHelper::CreateDatabaseIfNotExists("pharmacy.db");
 	// dummy data for the products Note: use it after creating the db otherwise you will face some issues
 	//ProductDBHelper::InsertDummyData();
+	//InventoryDBHelper::InsertDummyData();
+	//CategoryDBHelper::InsertDummyData();
+
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 	//test::Login^ form = gcnew test::Login();

@@ -28,3 +28,4 @@ int Customer::AddOrGetId(String^ name, String^ phone)
     conn->Close();
     return customerId;
 }
+

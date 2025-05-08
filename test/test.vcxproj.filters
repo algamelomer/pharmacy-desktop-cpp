@@ -75,6 +75,15 @@
     <ClCompile Include="CustomerTypeDialog.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="medicine_management.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Category_form.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory_form.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Login.h">
@@ -126,6 +135,15 @@
       <Filter>Data base</Filter>
     </ClInclude>
     <ClInclude Include="CustomerTypeDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="medicine_management.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Category_form.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory_form.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

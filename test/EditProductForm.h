@@ -1,5 +1,7 @@
 #pragma once
 #include "product.h"
+#include "inventory.h"
+#include "category.h"
 
 namespace ProductApp {
 
@@ -12,15 +14,15 @@ namespace ProductApp {
     private:
         bool _isNewProduct;
         Label^ lblName;
-        Label^ lblCategoryId;
-        Label^ lblInventoryId;
+        Label^ lblCategory;
+        Label^ lblInventory;
         Label^ lblPrice;
         Label^ lblCount;
         Label^ lblBarcode;
 
         TextBox^ txtName;
-        TextBox^ txtCategoryId;
-        TextBox^ txtInventoryId;
+        ComboBox^ comboCategory;
+        ComboBox^ comboInventory;
         TextBox^ txtPrice;
         TextBox^ txtCount;
         TextBox^ txtBarcode;
@@ -43,7 +45,7 @@ namespace ProductApp {
             _isNewProduct = true;
             InitializeComponent();
         }
-        // Property to get the updated product
+
         property Product^ UpdatedProduct {
             Product^ get() { return product; }
         }
@@ -53,93 +55,91 @@ namespace ProductApp {
         {
             this->Text = _isNewProduct ? "Add Product" : "Edit Product";
             this->Width = 400;
-            this->Height = 400;
+            this->Height = 450;  // Increased height to accommodate all controls
+            this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
+             // Add this include directive at the top of the file
+
+            // Ensure the namespace is correctly referenced
             this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
             this->MaximizeBox = false;
             this->MinimizeBox = false;
             this->StartPosition = FormStartPosition::CenterParent;
 
-            int labelWidth = 100;
             int textBoxWidth = 200;
             int leftMargin = 20;
             int topMargin = 20;
             int verticalSpacing = 30;
 
-            // Labels and TextBoxes
+            // Name Section
             lblName = gcnew Label();
-            lblName->Text = "Name";
-            lblName->Top = topMargin;
-            lblName->Left = leftMargin;
+            lblName->Text = "Name:";
+            lblName->Location = Point(leftMargin, topMargin);
             this->Controls->Add(lblName);
 
             txtName = gcnew TextBox();
-            txtName->Top = lblName->Top + 20;
-            txtName->Left = leftMargin;
+            txtName->Location = Point(leftMargin, lblName->Bottom + 5);
             txtName->Width = textBoxWidth;
             txtName->Text = product->Name;
             this->Controls->Add(txtName);
 
-            lblCategoryId = gcnew Label();
-            lblCategoryId->Text = "Category ID";
-            lblCategoryId->Top = txtName->Top + verticalSpacing;
-            lblCategoryId->Left = leftMargin;
-            this->Controls->Add(lblCategoryId);
+            // Category Section
+            lblCategory = gcnew Label();
+            lblCategory->Text = "Category:";
+            lblCategory->Location = Point(leftMargin, txtName->Bottom + verticalSpacing);
+            this->Controls->Add(lblCategory);
 
-            txtCategoryId = gcnew TextBox();
-            txtCategoryId->Top = lblCategoryId->Top + 20;
-            txtCategoryId->Left = leftMargin;
-            txtCategoryId->Width = textBoxWidth;
-            txtCategoryId->Text = product->CategoryId.ToString();
-            this->Controls->Add(txtCategoryId);
+            comboCategory = gcnew ComboBox();
+            comboCategory->DropDownStyle = ComboBoxStyle::DropDownList;
+            comboCategory->Location = Point(leftMargin, lblCategory->Bottom + 5);
+            comboCategory->Width = textBoxWidth;
+            LoadCategories();
+            this->Controls->Add(comboCategory);
 
-            lblInventoryId = gcnew Label();
-            lblInventoryId->Text = "Inventory ID";
-            lblInventoryId->Top = txtCategoryId->Top + verticalSpacing;
-            lblInventoryId->Left = leftMargin;
-            this->Controls->Add(lblInventoryId);
+            // Inventory Section
+            lblInventory = gcnew Label();
+            lblInventory->Text = "Inventory:";
+            lblInventory->Location = Point(leftMargin, comboCategory->Bottom + verticalSpacing);
+            this->Controls->Add(lblInventory);
 
-            txtInventoryId = gcnew TextBox();
-            txtInventoryId->Top = lblInventoryId->Top + 20;
-            txtInventoryId->Left = leftMargin;
-            txtInventoryId->Width = textBoxWidth;
-            txtInventoryId->Text = product->InventoryId.ToString();
-            this->Controls->Add(txtInventoryId);
+            comboInventory = gcnew ComboBox();
+            comboInventory->DropDownStyle = ComboBoxStyle::DropDownList;
+            comboInventory->Location = Point(leftMargin, lblInventory->Bottom + 5);
+            comboInventory->Width = textBoxWidth;
+            LoadInventories();
+            this->Controls->Add(comboInventory);
 
+            // Price Section
             lblPrice = gcnew Label();
-            lblPrice->Text = "Price";
-            lblPrice->Top = txtInventoryId->Top + verticalSpacing;
-            lblPrice->Left = leftMargin;
+            lblPrice->Text = "Price:";
+            lblPrice->Location = Point(leftMargin, comboInventory->Bottom + verticalSpacing);
             this->Controls->Add(lblPrice);
 
             txtPrice = gcnew TextBox();
-            txtPrice->Top = lblPrice->Top + 20;
-            txtPrice->Left = leftMargin;
+            txtPrice->Location = Point(leftMargin, lblPrice->Bottom + 5);
             txtPrice->Width = textBoxWidth;
             txtPrice->Text = product->Price.ToString();
             this->Controls->Add(txtPrice);
 
+            // Count Section
             lblCount = gcnew Label();
-            lblCount->Text = "Count";
-            lblCount->Top = txtPrice->Top + verticalSpacing;
-            lblCount->Left = leftMargin;
+            lblCount->Text = "Count:";
+            lblCount->Location = Point(leftMargin, txtPrice->Bottom + verticalSpacing);
             this->Controls->Add(lblCount);
 
             txtCount = gcnew TextBox();
-            txtCount->Top = lblCount->Top + 20;
-            txtCount->Left = leftMargin;
+            txtCount->Location = Point(leftMargin, lblCount->Bottom + 5);
             txtCount->Width = textBoxWidth;
             txtCount->Text = product->Count.ToString();
             this->Controls->Add(txtCount);
 
+            // Barcode Section
             lblBarcode = gcnew Label();
-            lblBarcode->Text = "Barcode";
-            lblBarcode->Top = txtCount->Top + verticalSpacing;
-            lblBarcode->Left = leftMargin;
+            lblBarcode->Text = "Barcode:";
+            lblBarcode->Location = Point(leftMargin, txtCount->Bottom + verticalSpacing);
             this->Controls->Add(lblBarcode);
 
             txtBarcode = gcnew TextBox();
-            txtBarcode->Top = lblBarcode->Top + 20;
-            txtBarcode->Left = leftMargin;
+            txtBarcode->Location = Point(leftMargin, lblBarcode->Bottom + 5);
             txtBarcode->Width = textBoxWidth;
             txtBarcode->Text = product->Barcode;
             this->Controls->Add(txtBarcode);
@@ -147,44 +147,82 @@ namespace ProductApp {
             // Buttons
             btnSave = gcnew Button();
             btnSave->Text = _isNewProduct ? "Add" : "Save";
-            btnSave->Top = txtBarcode->Top + 40;
-            btnSave->Left = leftMargin;
+            btnSave->Location = Point(leftMargin, txtBarcode->Bottom + 30);
             btnSave->Click += gcnew EventHandler(this, &EditProductForm::BtnSave_Click);
             this->Controls->Add(btnSave);
 
             btnCancel = gcnew Button();
             btnCancel->Text = "Cancel";
-            btnCancel->Top = btnSave->Top;
-            btnCancel->Left = leftMargin + 90;
+            btnCancel->Location = Point(btnSave->Right + 10, btnSave->Top);
             btnCancel->Click += gcnew EventHandler(this, &EditProductForm::BtnCancel_Click);
             this->Controls->Add(btnCancel);
+        }
+
+        void LoadCategories()
+        {
+            try
+            {
+                comboCategory->DataSource = CategoryDBHelper::GetAllCategories();
+                comboCategory->DisplayMember = "Name";
+                comboCategory->ValueMember = "Id";
+                comboCategory->SelectedValue = product->CategoryId;
+            }
+            catch (Exception^ ex)
+            {
+                MessageBox::Show("Error loading categories: " + ex->Message);
+            }
+        }
+
+        void LoadInventories()
+        {
+            try
+            {
+                comboInventory->DataSource = InventoryDBHelper::GetAllInventories();
+                comboInventory->DisplayMember = "Location";
+                comboInventory->ValueMember = "Id";
+                comboInventory->SelectedValue = product->InventoryId;
+            }
+            catch (Exception^ ex)
+            {
+                MessageBox::Show("Error loading inventories: " + ex->Message);
+            }
         }
 
         void BtnSave_Click(Object^ sender, EventArgs^ e)
         {
             try
             {
+                // Validate selections
+                if (comboCategory->SelectedValue == nullptr || comboInventory->SelectedValue == nullptr)
+                {
+                    MessageBox::Show("Please select both a category and an inventory location.");
+                    return;
+                }
+
+                // Update product object
                 product->Name = txtName->Text;
-                product->CategoryId = Convert::ToInt32(txtCategoryId->Text);
-                product->InventoryId = Convert::ToInt32(txtInventoryId->Text);
+                product->CategoryId = safe_cast<int>(comboCategory->SelectedValue);
+                product->InventoryId = safe_cast<int>(comboInventory->SelectedValue);
                 product->Price = Convert::ToDouble(txtPrice->Text);
                 product->Count = Convert::ToInt32(txtCount->Text);
                 product->Barcode = txtBarcode->Text;
+
                 this->DialogResult = System::Windows::Forms::DialogResult::OK;
                 this->Close();
             }
             catch (FormatException^)
             {
-                MessageBox::Show("Please enter valid numeric values for Category ID, Inventory ID, Price, and Count.");
+                MessageBox::Show("Invalid numeric values! Please check:\n- Price must be a decimal number\n- Count must be a whole number");
             }
             catch (Exception^ ex)
             {
-                MessageBox::Show("Error saving product: " + ex->Message);
+                MessageBox::Show("Saving failed: " + ex->Message);
             }
         }
 
         void BtnCancel_Click(Object^ sender, EventArgs^ e)
         {
+         // Add this include directive at the top of the file if not already present
             this->DialogResult = System::Windows::Forms::DialogResult::Cancel;
             this->Close();
         }

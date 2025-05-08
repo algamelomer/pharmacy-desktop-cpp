@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "product.h"
+#include "category.h"
+#include "inventory.h"
 
 namespace ProductApp {
     using namespace System;
@@ -154,19 +156,21 @@ namespace ProductApp {
             dataGrid->Rows->Clear();
             dataGrid->Columns->Clear();
 
+            // Add columns to the data grid
             dataGrid->Columns->Add("Id", "ID");
             dataGrid->Columns->Add("Name", "Name");
-            dataGrid->Columns->Add("CategoryId", "Category ID");
-            dataGrid->Columns->Add("InventoryId", "Inventory ID");
+            dataGrid->Columns->Add("CategoryName", "Category Name");
+            dataGrid->Columns->Add("InventoryName", "Inventory Name");
             dataGrid->Columns->Add("Price", "Price");
             dataGrid->Columns->Add("Count", "Count");
             dataGrid->Columns->Add("Barcode", "Barcode");
             dataGrid->Columns->Add("update", "Update");
             dataGrid->Columns->Add("delete", "Delete");
 
+            // Format the columns
             dataGrid->Columns["Id"]->DefaultCellStyle->Alignment = DataGridViewContentAlignment::MiddleCenter;
-            dataGrid->Columns["CategoryId"]->DefaultCellStyle->Alignment = DataGridViewContentAlignment::MiddleCenter;
-            dataGrid->Columns["InventoryId"]->DefaultCellStyle->Alignment = DataGridViewContentAlignment::MiddleCenter;
+            dataGrid->Columns["CategoryName"]->DefaultCellStyle->Alignment = DataGridViewContentAlignment::MiddleCenter;
+            dataGrid->Columns["InventoryName"]->DefaultCellStyle->Alignment = DataGridViewContentAlignment::MiddleCenter;
             dataGrid->Columns["Price"]->DefaultCellStyle->Alignment = DataGridViewContentAlignment::MiddleRight;
             dataGrid->Columns["Count"]->DefaultCellStyle->Alignment = DataGridViewContentAlignment::MiddleCenter;
             dataGrid->Columns["Barcode"]->DefaultCellStyle->Alignment = DataGridViewContentAlignment::MiddleLeft;
@@ -176,13 +180,21 @@ namespace ProductApp {
 
             for each (Product ^ p in products)
             {
-                dataGrid->Rows->Add(p->Id, p->Name, p->CategoryId, p->InventoryId, p->Price, p->Count, p->Barcode);
+                // Fetch Category and Inventory names based on IDs
+                String^ categoryName = GetCategoryNameById(p->CategoryId);
+                String^ inventoryName = GetInventoryNameById(p->InventoryId);
+
+                // Add the product data to the grid
+                dataGrid->Rows->Add(p->Id, p->Name, categoryName, inventoryName, p->Price, p->Count, p->Barcode);
+
+                // Add Update button
                 DataGridViewButtonCell^ BtnUpdate_Click = gcnew DataGridViewButtonCell();
                 BtnUpdate_Click->Value = "Update";
                 BtnUpdate_Click->Style->BackColor = Color::FromArgb(0, 120, 215);
                 BtnUpdate_Click->Style->ForeColor = Color::White;
                 dataGrid->Rows[dataGrid->Rows->Count - 1]->Cells["update"] = BtnUpdate_Click;
 
+                // Add Delete button
                 DataGridViewButtonCell^ BtnDelete_Click = gcnew DataGridViewButtonCell();
                 BtnDelete_Click->Value = "Delete";
                 BtnDelete_Click->Style->BackColor = Color::FromArgb(255, 80, 80);
@@ -190,6 +202,21 @@ namespace ProductApp {
                 dataGrid->Rows[dataGrid->Rows->Count - 1]->Cells["delete"] = BtnDelete_Click;
             }
         }
+
+        String^ GetCategoryNameById(int categoryId)
+        {
+
+            Category^ category = CategoryDBHelper::GetCategoryById(categoryId);
+            return category != nullptr ? category->Name : "Unknown";
+        }
+
+        String^ GetInventoryNameById(int inventoryId)
+        {
+
+            Inventory^ inventory = InventoryDBHelper::GetInventoryById(inventoryId);
+            return inventory != nullptr ? inventory->Location : "Unknown";
+        }
+
 
         void OnSearchTextChanged(Object^ sender, EventArgs^ e)
         {
@@ -440,23 +467,21 @@ namespace ProductApp {
             return false;
         }
 
-    private: 
+    private:
         ref class EditProductForm : public Form
         {
         private:
-            Label^ lblId;
-            TextBox^ txtId;
             Label^ lblName;
             TextBox^ txtName;
             Label^ lblCategoryId;
-            TextBox^ txtCategoryId;
+            ComboBox^ cmbCategoryId; // class-level ComboBox
             Label^ lblInventoryId;
-            TextBox^ txtInventoryId;
+            ComboBox^ cmbInventoryId; // class-level ComboBox for Inventory
             Label^ lblPrice;
-            TextBox^ txtPrice;
-            Label^ lblCount;
-            TextBox^ txtCount;
             Label^ lblBarcode;
+            Label^ lblCount;
+            TextBox^ txtPrice;
+            TextBox^ txtCount;
             TextBox^ txtBarcode;
             Button^ btnSave;
             Button^ btnCancel;
@@ -481,7 +506,7 @@ namespace ProductApp {
             EditProductForm(Product^ existingProduct)
             {
                 InitializeComponent();
-                product = existingProduct; 
+                product = existingProduct;
                 LoadProductData();
             }
 
@@ -493,28 +518,12 @@ namespace ProductApp {
                 this->Height = 500;
                 this->BackColor = Color::FromArgb(46, 46, 46);
                 this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
-                this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
                 this->MaximizeBox = false;
                 this->StartPosition = FormStartPosition::CenterParent;
                 this->Padding = Windows::Forms::Padding(20);
                 this->Font = gcnew Drawing::Font("Segoe UI", 10);
 
-                lblId = gcnew Label();
-                lblId->Text = "ID:";
-                lblId->ForeColor = Color::White;
-                lblId->Location = Point(20, 20);
-                lblId->Width = 100;
-                this->Controls->Add(lblId);
-
-                txtId = gcnew TextBox();
-                txtId->Location = Point(130, 20);
-                txtId->Width = 200;
-                txtId->BackColor = Color::FromArgb(60, 60, 60);
-                txtId->ForeColor = Color::White;
-                txtId->ReadOnly = true;
-                this->Controls->Add(txtId);
-
-                // Name Label and TextBox
+                // Name
                 lblName = gcnew Label();
                 lblName->Text = "Name:";
                 lblName->ForeColor = Color::White;
@@ -529,37 +538,63 @@ namespace ProductApp {
                 txtName->ForeColor = Color::White;
                 this->Controls->Add(txtName);
 
-                // Category ID Label and TextBox
+                // Category ID
                 lblCategoryId = gcnew Label();
-                lblCategoryId->Text = "Category ID:";
+                lblCategoryId->Text = "Category:";
                 lblCategoryId->ForeColor = Color::White;
                 lblCategoryId->Location = Point(20, 100);
                 lblCategoryId->Width = 100;
                 this->Controls->Add(lblCategoryId);
 
-                txtCategoryId = gcnew TextBox();
-                txtCategoryId->Location = Point(130, 100);
-                txtCategoryId->Width = 200;
-                txtCategoryId->BackColor = Color::FromArgb(60, 60, 60);
-                txtCategoryId->ForeColor = Color::White;
-                this->Controls->Add(txtCategoryId);
+                cmbCategoryId = gcnew ComboBox(); // Category ComboBox
+                cmbCategoryId->Location = Point(130, 100);
+                cmbCategoryId->Width = 200;
+                cmbCategoryId->BackColor = Color::FromArgb(60, 60, 60);
+                cmbCategoryId->ForeColor = Color::White;
+                cmbCategoryId->DropDownStyle = ComboBoxStyle::DropDownList;
 
-                // Inventory ID Label and TextBox
+                // Load categories
+                List<Category^>^ categories = CategoryDBHelper::GetAllCategories();
+                for each (Category ^ cat in categories) {
+                    cmbCategoryId->Items->Add(cat);
+                }
+                cmbCategoryId->DisplayMember = "Name";
+
+                if (cmbCategoryId->Items->Count > 0) {
+                    cmbCategoryId->SelectedIndex = 0;
+                }
+
+                this->Controls->Add(cmbCategoryId);
+
+                // Inventory ID
                 lblInventoryId = gcnew Label();
-                lblInventoryId->Text = "Inventory ID:";
+                lblInventoryId->Text = "Inventory:";
                 lblInventoryId->ForeColor = Color::White;
                 lblInventoryId->Location = Point(20, 140);
                 lblInventoryId->Width = 100;
                 this->Controls->Add(lblInventoryId);
 
-                txtInventoryId = gcnew TextBox();
-                txtInventoryId->Location = Point(130, 140);
-                txtInventoryId->Width = 200;
-                txtInventoryId->BackColor = Color::FromArgb(60, 60, 60);
-                txtInventoryId->ForeColor = Color::White;
-                this->Controls->Add(txtInventoryId);
+                cmbInventoryId = gcnew ComboBox(); // Inventory ComboBox
+                cmbInventoryId->Location = Point(130, 140);
+                cmbInventoryId->Width = 200;
+                cmbInventoryId->BackColor = Color::FromArgb(60, 60, 60);
+                cmbInventoryId->ForeColor = Color::White;
+                cmbInventoryId->DropDownStyle = ComboBoxStyle::DropDownList;
 
-                // Price Label and TextBox
+                // Load inventories
+                List<Inventory^>^ inventories = InventoryDBHelper::GetAllInventories();
+                for each (Inventory ^ inv in inventories) {
+                    cmbInventoryId->Items->Add(inv);
+                }
+                cmbInventoryId->DisplayMember = "Location";
+
+                if (cmbInventoryId->Items->Count > 0) {
+                    cmbInventoryId->SelectedIndex = 0;
+                }
+
+                this->Controls->Add(cmbInventoryId);
+
+                // Price
                 lblPrice = gcnew Label();
                 lblPrice->Text = "Price:";
                 lblPrice->ForeColor = Color::White;
@@ -574,7 +609,7 @@ namespace ProductApp {
                 txtPrice->ForeColor = Color::White;
                 this->Controls->Add(txtPrice);
 
-                // Count Label and TextBox
+                // Count
                 lblCount = gcnew Label();
                 lblCount->Text = "Count:";
                 lblCount->ForeColor = Color::White;
@@ -589,7 +624,7 @@ namespace ProductApp {
                 txtCount->ForeColor = Color::White;
                 this->Controls->Add(txtCount);
 
-                // Barcode Label and TextBox
+                // Barcode
                 lblBarcode = gcnew Label();
                 lblBarcode->Text = "Barcode:";
                 lblBarcode->ForeColor = Color::White;
@@ -641,11 +676,31 @@ namespace ProductApp {
             {
                 if (product != nullptr)
                 {
-                    txtId->Text = product->Id.ToString();
                     txtName->Text = product->Name;
-                    txtCategoryId->Text = product->CategoryId.ToString();
-                    txtInventoryId->Text = product->InventoryId.ToString();
-                    txtPrice->Text = Convert::ToString(product->Price); 
+
+                    // Load Category
+                    for (int i = 0; i < cmbCategoryId->Items->Count; i++)
+                    {
+                        Category^ cat = dynamic_cast<Category^>(cmbCategoryId->Items[i]);
+                        if (cat != nullptr && cat->Id == product->CategoryId)
+                        {
+                            cmbCategoryId->SelectedIndex = i;
+                            break;
+                        }
+                    }
+
+                    // Load Inventory
+                    for (int i = 0; i < cmbInventoryId->Items->Count; i++)
+                    {
+                        Inventory^ inv = dynamic_cast<Inventory^>(cmbInventoryId->Items[i]);
+                        if (inv != nullptr && inv->Id == product->InventoryId)
+                        {
+                            cmbInventoryId->SelectedIndex = i;
+                            break;
+                        }
+                    }
+
+                    txtPrice->Text = Convert::ToString(product->Price);
                     txtCount->Text = product->Count.ToString();
                     txtBarcode->Text = product->Barcode;
                 }
@@ -655,11 +710,20 @@ namespace ProductApp {
             {
                 try
                 {
-                    product->Id = Convert::ToInt32(txtId->Text);
                     product->Name = txtName->Text;
-                    product->CategoryId = Convert::ToInt32(txtCategoryId->Text);
-                    product->InventoryId = Convert::ToInt32(txtInventoryId->Text);
-                    product->Price = Convert::ToDouble(txtPrice->Text); 
+
+                    // Get selected category and inventory
+                    Category^ selectedCategory = dynamic_cast<Category^>(cmbCategoryId->SelectedItem);
+                    if (selectedCategory == nullptr)
+                        throw gcnew Exception("Please select a category.");
+                    product->CategoryId = selectedCategory->Id;
+
+                    Inventory^ selectedInventory = dynamic_cast<Inventory^>(cmbInventoryId->SelectedItem);
+                    if (selectedInventory == nullptr)
+                        throw gcnew Exception("Please select an inventory.");
+                    product->InventoryId = selectedInventory->Id;
+
+                    product->Price = Convert::ToDouble(txtPrice->Text);
                     product->Count = Convert::ToInt32(txtCount->Text);
                     product->Barcode = txtBarcode->Text;
 

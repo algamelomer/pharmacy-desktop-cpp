@@ -2,6 +2,10 @@
 #include "Login.h"
 #include "ReceiptForm.h"
 #include "Dashboard.h"
+#include "Category_form.h"
+#include "Inventory_form.h"
+
+using namespace ProductApp;
 
 namespace test {
 
@@ -43,14 +47,27 @@ namespace test {
     }
 
     System::Void home::Home_panel_Click(System::Object^ sender, System::EventArgs^ e) {
-        content_panel->Controls->Clear();
+        /*content_panel->Controls->Clear();
 
         System::Windows::Forms::Label^ homeLabel = gcnew System::Windows::Forms::Label();
         homeLabel->Text = L"Welcome to the Home Page";
         homeLabel->AutoSize = true;
         homeLabel->Font = gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Bold);
         homeLabel->Location = System::Drawing::Point(50, 50);
-        content_panel->Controls->Add(homeLabel);
+        content_panel->Controls->Add(homeLabel);*/
+
+        content_panel->Controls->Clear();
+
+        // Create and configure the ReceiptForm
+        InventoryForm^ categoryPage = gcnew InventoryForm();
+        categoryPage->TopLevel = false;
+        categoryPage->Dock = System::Windows::Forms::DockStyle::Fill;
+        categoryPage->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
+
+        // Add to content panel
+        content_panel->Controls->Add(categoryPage);
+        categoryPage->Show();
+
     }
 
     System::Void home::add_item_panel_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -62,6 +79,8 @@ namespace test {
         productPage->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
         content_panel->Controls->Add(productPage);
         productPage->Show();
+
+
     }
 
     System::Void home::Remove_item_panel_Click(System::Object^ sender, System::EventArgs^ e) {
