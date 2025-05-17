@@ -117,7 +117,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\pharmacy-desktop-cpp - Copy\packages\System.Data.SQLite.1.0.119.0\System.Data.SQLite.dll</HintPath>
+      <HintPath>..\packages\System.Data.SQLite.1.0.119.0\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
@@ -142,6 +142,7 @@
     <ClCompile Include="product.cpp" />
     <ClCompile Include="productsearchform.cpp" />
     <ClCompile Include="ReceiptForm.cpp" />
+    <ClCompile Include="ReturnForm.cpp" />
     <ClCompile Include="sale.cpp" />
     <ClCompile Include="sale_item.cpp" />
     <ClCompile Include="Supplier.cpp" />
@@ -190,6 +191,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ReturnForm.h" />
     <ClInclude Include="sale.h" />
     <ClInclude Include="sale_item.h" />
     <ClInclude Include="Supplier.h" />

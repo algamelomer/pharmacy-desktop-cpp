@@ -5,6 +5,7 @@
 #include "Category_form.h"
 #include "Inventory_form.h"
 #include "SupplierForm.h"
+#include "ReturnForm.h"
 
 using namespace ProductApp;
 
@@ -67,15 +68,21 @@ namespace test {
         categoryPage->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;*/
 
         /*=================     Welcome to the Supplier Page     ================= */
-        SupplierForm^ supplierForm = gcnew SupplierForm();
+        /*SupplierForm^ supplierForm = gcnew SupplierForm();
         supplierForm->TopLevel = false; 
         supplierForm->Dock = DockStyle::Fill; 
-        supplierForm->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
+        supplierForm->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;*/
+
+        /*=================    Create and configure the Return Form    ================= */
+        ReturnForm^ returnForm = gcnew ReturnForm();
+        returnForm->TopLevel = false;
+        returnForm->Dock = System::Windows::Forms::DockStyle::Fill;
+        returnForm->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
 
 
          /*=================     Add to content panel     ================= */
-        content_panel->Controls->Add(supplierForm);
-        supplierForm->Show();
+        content_panel->Controls->Add(returnForm);
+        returnForm->Show();
 
     }
 
