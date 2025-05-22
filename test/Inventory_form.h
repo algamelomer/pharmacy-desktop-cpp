@@ -8,7 +8,7 @@ namespace ProductApp {
     using namespace System::Drawing;
     using namespace System::Data::SQLite;
 
-    public ref class InventoryForm : public Form
+    public ref class InventoryForm : public System::Windows::Forms::UserControl
     {
     private:
         Label^ lblSearch;

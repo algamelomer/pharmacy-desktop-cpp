@@ -117,7 +117,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\pharmacy-desktop-cpp - Copy\packages\System.Data.SQLite.1.0.119.0\System.Data.SQLite.dll</HintPath>
+      <HintPath>..\..\..\..\.nuget\packages\system.data.sqlite\1.0.119\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
@@ -139,6 +139,7 @@
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="db.cpp" />
+    <ClCompile Include="myprofile.cpp" />
     <ClCompile Include="product.cpp" />
     <ClCompile Include="productsearchform.cpp" />
     <ClCompile Include="ReceiptForm.cpp" />
@@ -182,6 +183,9 @@
     <ClInclude Include="Login.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="myprofile.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="product.h" />
     <ClInclude Include="productsearchform.h">
       <FileType>CppForm</FileType>
@@ -190,6 +194,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ReturnForm.h" />
     <ClInclude Include="sale.h" />
     <ClInclude Include="sale_item.h" />
     <ClInclude Include="Supplier.h" />
@@ -225,6 +230,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="myprofile.resx">
+      <DependentUpon>myprofile.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="productsearchform.resx">
       <DependentUpon>productsearchform.h</DependentUpon>

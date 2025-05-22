@@ -96,6 +96,9 @@
     <ClCompile Include="SupplierForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="myprofile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Login.h">
@@ -158,16 +161,22 @@
     <ClInclude Include="Inventory_form.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Supplier.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SupplierDBManage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SupplierDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SupplierForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="myprofile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Supplier.h">
+      <Filter>Data base</Filter>
+    </ClInclude>
+    <ClInclude Include="SupplierDBManage.h">
+      <Filter>Data base</Filter>
+    </ClInclude>
+    <ClInclude Include="ReturnForm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

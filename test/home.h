@@ -96,10 +96,10 @@ namespace test {
             this->pictureBox7 = (gcnew System::Windows::Forms::PictureBox());
             this->sidebar_panel_container = (gcnew System::Windows::Forms::Panel());
             this->flowLayoutPanel1 = (gcnew System::Windows::Forms::FlowLayoutPanel());
-            this->content_panel = (gcnew System::Windows::Forms::Panel());
-            this->pictureBox3 = (gcnew System::Windows::Forms::PictureBox());
-            this->label3 = (gcnew System::Windows::Forms::Label());
             this->add_item_panel = (gcnew System::Windows::Forms::Panel());
+            this->label3 = (gcnew System::Windows::Forms::Label());
+            this->pictureBox3 = (gcnew System::Windows::Forms::PictureBox());
+            this->content_panel = (gcnew System::Windows::Forms::Panel());
             this->Home_panel->SuspendLayout();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
             this->Remove_item_panel->SuspendLayout();
@@ -112,8 +112,8 @@ namespace test {
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox7))->BeginInit();
             this->sidebar_panel_container->SuspendLayout();
             this->flowLayoutPanel1->SuspendLayout();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
             this->add_item_panel->SuspendLayout();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
             this->SuspendLayout();
             // 
             // Home_panel
@@ -351,31 +351,19 @@ namespace test {
             this->flowLayoutPanel1->Name = L"flowLayoutPanel1";
             this->flowLayoutPanel1->Size = System::Drawing::Size(307, 602);
             this->flowLayoutPanel1->TabIndex = 0;
+            this->flowLayoutPanel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &home::flowLayoutPanel1_Paint);
             // 
-            // content_panel
+            // add_item_panel
             // 
-            this->content_panel->BackColor = System::Drawing::Color::White;
-            this->content_panel->Dock = System::Windows::Forms::DockStyle::Fill;
-            this->content_panel->Location = System::Drawing::Point(307, 0);
-            this->content_panel->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
-            this->content_panel->Name = L"content_panel";
-            this->content_panel->Size = System::Drawing::Size(716, 764);
-            this->content_panel->TabIndex = 2;
-            this->content_panel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &home::content_panel_Paint);
-            // 
-            // pictureBox3
-            // 
-            this->pictureBox3->BackColor = System::Drawing::Color::Transparent;
-            this->pictureBox3->Cursor = System::Windows::Forms::Cursors::Hand;
-            this->pictureBox3->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox3.Image")));
-            this->pictureBox3->Location = System::Drawing::Point(9, 18);
-            this->pictureBox3->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
-            this->pictureBox3->Name = L"pictureBox3";
-            this->pictureBox3->Size = System::Drawing::Size(39, 39);
-            this->pictureBox3->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
-            this->pictureBox3->TabIndex = 0;
-            this->pictureBox3->TabStop = false;
-            this->pictureBox3->Click += gcnew System::EventHandler(this, &home::add_item_panel_Click);
+            this->add_item_panel->Controls->Add(this->label3);
+            this->add_item_panel->Controls->Add(this->pictureBox3);
+            this->add_item_panel->Cursor = System::Windows::Forms::Cursors::Hand;
+            this->add_item_panel->Location = System::Drawing::Point(3, 302);
+            this->add_item_panel->Margin = System::Windows::Forms::Padding(3, 2, 3, 6);
+            this->add_item_panel->Name = L"add_item_panel";
+            this->add_item_panel->Size = System::Drawing::Size(299, 92);
+            this->add_item_panel->TabIndex = 2;
+            this->add_item_panel->Click += gcnew System::EventHandler(this, &home::add_item_panel_Click);
             // 
             // label3
             // 
@@ -392,17 +380,30 @@ namespace test {
             this->label3->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             this->label3->Click += gcnew System::EventHandler(this, &home::add_item_panel_Click);
             // 
-            // add_item_panel
+            // pictureBox3
             // 
-            this->add_item_panel->Controls->Add(this->label3);
-            this->add_item_panel->Controls->Add(this->pictureBox3);
-            this->add_item_panel->Cursor = System::Windows::Forms::Cursors::Hand;
-            this->add_item_panel->Location = System::Drawing::Point(3, 302);
-            this->add_item_panel->Margin = System::Windows::Forms::Padding(3, 2, 3, 6);
-            this->add_item_panel->Name = L"add_item_panel";
-            this->add_item_panel->Size = System::Drawing::Size(299, 92);
-            this->add_item_panel->TabIndex = 2;
-            this->add_item_panel->Click += gcnew System::EventHandler(this, &home::add_item_panel_Click);
+            this->pictureBox3->BackColor = System::Drawing::Color::Transparent;
+            this->pictureBox3->Cursor = System::Windows::Forms::Cursors::Hand;
+            this->pictureBox3->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox3.Image")));
+            this->pictureBox3->Location = System::Drawing::Point(9, 18);
+            this->pictureBox3->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+            this->pictureBox3->Name = L"pictureBox3";
+            this->pictureBox3->Size = System::Drawing::Size(39, 39);
+            this->pictureBox3->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+            this->pictureBox3->TabIndex = 0;
+            this->pictureBox3->TabStop = false;
+            this->pictureBox3->Click += gcnew System::EventHandler(this, &home::add_item_panel_Click);
+            // 
+            // content_panel
+            // 
+            this->content_panel->BackColor = System::Drawing::Color::White;
+            this->content_panel->Dock = System::Windows::Forms::DockStyle::Fill;
+            this->content_panel->Location = System::Drawing::Point(307, 0);
+            this->content_panel->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+            this->content_panel->Name = L"content_panel";
+            this->content_panel->Size = System::Drawing::Size(716, 764);
+            this->content_panel->TabIndex = 2;
+            this->content_panel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &home::content_panel_Paint);
             // 
             // home
             // 
@@ -435,9 +436,9 @@ namespace test {
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox7))->EndInit();
             this->sidebar_panel_container->ResumeLayout(false);
             this->flowLayoutPanel1->ResumeLayout(false);
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->EndInit();
             this->add_item_panel->ResumeLayout(false);
             this->add_item_panel->PerformLayout();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->EndInit();
             this->ResumeLayout(false);
 
         }
@@ -452,8 +453,13 @@ namespace test {
     private: System::Void sidebar_panel_container_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
     }
     private: System::Void home_Load(System::Object^ sender, System::EventArgs^ e) {
+        Home_panel_Click(sender, e);
     }
     private: System::Void content_panel_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
     }
-    };
+    private: System::Void flowLayoutPanel1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+    }
+
+
+};
 }

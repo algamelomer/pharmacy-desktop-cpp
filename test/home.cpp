@@ -5,6 +5,7 @@
 #include "Category_form.h"
 #include "Inventory_form.h"
 #include "SupplierForm.h"
+#include "myprofile.h"
 
 using namespace ProductApp;
 
@@ -49,34 +50,37 @@ namespace test {
 
     System::Void home::Home_panel_Click(System::Object^ sender, System::EventArgs^ e) {
 
-        /*=================     Welcome to the Home Page     ================= */
-        /*
-        System::Windows::Forms::Label^ homeLabel = gcnew System::Windows::Forms::Label();
-        homeLabel->Text = L"Welcome to the Home Page";
-        homeLabel->AutoSize = true;
-        homeLabel->Font = gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Bold);
-        homeLabel->Location = System::Drawing::Point(50, 50);
-        content_panel->Controls->Add(homeLabel);*/
-
+        // Clear previous controls
         content_panel->Controls->Clear();
 
-        /*=================    Create and configure the ReceiptForm    ================= */
-        /*InventoryForm^ categoryPage = gcnew InventoryForm();
-        categoryPage->TopLevel = false;
-        categoryPage->Dock = System::Windows::Forms::DockStyle::Fill;
-        categoryPage->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;*/
+        // Create a panel to fill the content area
+        System::Windows::Forms::Panel^ homePagePanel = gcnew System::Windows::Forms::Panel();
+        homePagePanel->Dock = System::Windows::Forms::DockStyle::Fill;
+        homePagePanel->BackColor = System::Drawing::Color::FromArgb(46, 46, 46);
 
-        /*=================     Welcome to the Supplier Page     ================= */
-        SupplierForm^ supplierForm = gcnew SupplierForm();
-        supplierForm->TopLevel = false; 
-        supplierForm->Dock = DockStyle::Fill; 
-        supplierForm->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
+        // Create the centered label
+        System::Windows::Forms::Label^ homeLabel = gcnew System::Windows::Forms::Label();
+        homeLabel->Text = L"Welcome to the Pharmacy management";
+        homeLabel->ForeColor = System::Drawing::Color::White;
+        homeLabel->BackColor = System::Drawing::Color::Transparent;
+        homeLabel->Font = gcnew System::Drawing::Font(L"Arial", 24, System::Drawing::FontStyle::Bold);
+        homeLabel->AutoSize = true;
+
+        // Center the label in the panel
+        homeLabel->Parent = homePagePanel;
+        homeLabel->Location = System::Drawing::Point(
+            (homePagePanel->Width - homeLabel->PreferredWidth) / 2,
+            (homePagePanel->Height - homeLabel->PreferredHeight) / 2
+        );
+        homeLabel->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(
+            System::Windows::Forms::AnchorStyles::None
+        );
+
+        // Add a handler to keep the label centered on resize
 
 
-         /*=================     Add to content panel     ================= */
-        content_panel->Controls->Add(supplierForm);
-        supplierForm->Show();
-
+        homePagePanel->Controls->Add(homeLabel);
+        content_panel->Controls->Add(homePagePanel);
     }
 
     System::Void home::add_item_panel_Click(System::Object^ sender, System::EventArgs^ e) {

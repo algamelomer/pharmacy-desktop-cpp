@@ -10,7 +10,7 @@
         using namespace System::Drawing;
         using namespace System::Data::SQLite;
 
-    public ref class CategoryForm : public Form
+    public ref class CategoryForm : public System::Windows::Forms::UserControl
     {
     private:
         Label^ lblSearch;
