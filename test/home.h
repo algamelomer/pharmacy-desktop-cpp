@@ -409,10 +409,11 @@ namespace test {
             this->ClientSize = System::Drawing::Size(1023, 764);
             this->Controls->Add(this->content_panel);
             this->Controls->Add(this->sidebar_panel_container);
+            this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
             this->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
             this->Name = L"home";
             this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
-            this->Text = L"home";
+            this->Text = L"Pharmacy Management System";
             this->WindowState = System::Windows::Forms::FormWindowState::Maximized;
             this->Load += gcnew System::EventHandler(this, &home::home_Load);
             this->Home_panel->ResumeLayout(false);
