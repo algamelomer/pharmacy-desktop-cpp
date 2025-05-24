@@ -37,8 +37,6 @@ namespace test {
             }
         }
 
-
-
     private: System::Windows::Forms::Panel^ Home_panel;
     private: System::Windows::Forms::Label^ label1;
     private: System::Windows::Forms::PictureBox^ pictureBox1;
@@ -51,8 +49,6 @@ namespace test {
     private: System::Windows::Forms::Panel^ Menu_panel;
     private: System::Windows::Forms::Label^ label5;
     private: System::Windows::Forms::PictureBox^ pictureBox5;
-
-
 
     private: System::Windows::Forms::Panel^ logout_panel;
     private: System::Windows::Forms::Label^ label7;
@@ -450,6 +446,7 @@ namespace test {
     private: System::Void Remove_item_panel_Click(System::Object^ sender, System::EventArgs^ e);
     private: System::Void dashboard_panel_Click(System::Object^ sender, System::EventArgs^ e);
     private: System::Void logout_panel_Click(System::Object^ sender, System::EventArgs^ e);
+    private: System::Void HomePagePanel_Resize(System::Object^ sender, System::EventArgs^ e);
     private: System::Void sidebar_panel_container_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
     }
     private: System::Void home_Load(System::Object^ sender, System::EventArgs^ e) {
@@ -460,6 +457,5 @@ namespace test {
     private: System::Void flowLayoutPanel1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
     }
 
-
-};
+    };
 }
