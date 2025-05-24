@@ -12,41 +12,70 @@ using namespace ProductApp;
 namespace test {
 
     System::Void home::Menu_panel_Click(System::Object^ sender, System::EventArgs^ e) {
-        System::ComponentModel::ComponentResourceManager^ resources = gcnew System::ComponentModel::ComponentResourceManager(home::typeid);
-
         sidebarExpanded = !sidebarExpanded;
+        targetWidth = sidebarExpanded ? 217 : 60;
+        sidebarTimer->Enabled = true; // Start the animation
+    }
 
-        if (sidebarExpanded) {
-            sidebar_panel_container->Width = 217;
+    System::Void home::SidebarTimer_Tick(System::Object^ sender, System::EventArgs^ e) {
+        if (sidebar_panel_container->Width != targetWidth) {
+            int currentWidth = sidebar_panel_container->Width;
+            int newWidth = currentWidth + (sidebarExpanded ? animationStep : -animationStep);
 
-            label1->Visible = true;
+            if (sidebarExpanded && newWidth >= targetWidth) {
+                newWidth = targetWidth;
+                sidebarTimer->Enabled = false;
+            }
+            else if (!sidebarExpanded && newWidth <= targetWidth) {
+                newWidth = targetWidth;
+                sidebarTimer->Enabled = false;
+            }
+
+            sidebar_panel_container->Width = newWidth;
+
+            // Update visibility of labels and picture boxes
+            bool visibility = sidebarExpanded && newWidth > 100;
+            label1->Visible = visibility;
             pictureBox1->Visible = true;
-            label2->Visible = true;
+            label2->Visible = visibility;
             pictureBox2->Visible = true;
-            label3->Visible = true;
+            label3->Visible = visibility;
             pictureBox3->Visible = true;
-            label5->Visible = true;
+            label5->Visible = visibility;
             pictureBox5->Visible = true;
-            label6->Visible = true;
+            label6->Visible = visibility;
             pictureBox6->Visible = true;
-            label7->Visible = true;
+            label7->Visible = visibility;
             pictureBox7->Visible = true;
         }
         else {
-            sidebar_panel_container->Width = 60;
+            sidebarTimer->Enabled = false;
+        }
+    }
 
-            label1->Visible = false;
-            pictureBox1->Visible = true;
-            label2->Visible = false;
-            pictureBox2->Visible = true;
-            label3->Visible = false;
-            pictureBox3->Visible = true;
-            label5->Visible = false;
-            pictureBox5->Visible = true;
-            label6->Visible = false;
-            pictureBox6->Visible = true;
-            label7->Visible = false;
-            pictureBox7->Visible = true;
+    System::Void home::Panel_MouseEnter(System::Object^ sender, System::EventArgs^ e) {
+        System::Windows::Forms::Control^ control = safe_cast<System::Windows::Forms::Control^>(sender);
+        System::Windows::Forms::Panel^ panel = dynamic_cast<System::Windows::Forms::Panel^>(control);
+
+        if (!panel) {
+            panel = safe_cast<System::Windows::Forms::Panel^>(control->Parent);
+        }
+
+        if (panel) {
+            panel->BackColor = System::Drawing::Color::FromArgb(50, 70, 90);
+        }
+    }
+
+    System::Void home::Panel_MouseLeave(System::Object^ sender, System::EventArgs^ e) {
+        System::Windows::Forms::Control^ control = safe_cast<System::Windows::Forms::Control^>(sender);
+        System::Windows::Forms::Panel^ panel = dynamic_cast<System::Windows::Forms::Panel^>(control);
+
+        if (!panel) {
+            panel = safe_cast<System::Windows::Forms::Panel^>(control->Parent);
+        }
+
+        if (panel) {
+            panel->BackColor = System::Drawing::Color::Transparent;
         }
     }
 
@@ -59,14 +88,11 @@ namespace test {
         homePagePanel->Dock = System::Windows::Forms::DockStyle::Fill;
         homePagePanel->BackColor = System::Drawing::Color::FromArgb(46, 46, 46);
 
-        // Create the centered image (medicine image from resx)
         System::Windows::Forms::PictureBox^ medicineImage = gcnew System::Windows::Forms::PictureBox();
-        // Use the resources variable where needed
         medicineImage->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"medicine")));
         medicineImage->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
         medicineImage->BackColor = System::Drawing::Color::Transparent;
 
-        // Create the centered label
         System::Windows::Forms::Label^ homeLabel = gcnew System::Windows::Forms::Label();
         homeLabel->Text = L"Welcome to the Pharmacy Management";
         homeLabel->ForeColor = System::Drawing::Color::White;
@@ -74,7 +100,6 @@ namespace test {
         homeLabel->Font = gcnew System::Drawing::Font(L"Arial", 24, System::Drawing::FontStyle::Bold);
         homeLabel->AutoSize = true;
 
-        // Add controls to the panel
         homePagePanel->Controls->Add(medicineImage);
         homePagePanel->Controls->Add(homeLabel);
 
@@ -94,13 +119,12 @@ namespace test {
         );
 
         homePagePanel->Resize += gcnew System::EventHandler(this, &home::HomePagePanel_Resize);
-
         content_panel->Controls->Add(homePagePanel);
     }
 
     System::Void home::HomePagePanel_Resize(System::Object^ sender, System::EventArgs^ e) {
         System::Windows::Forms::Panel^ panel = safe_cast<System::Windows::Forms::Panel^>(sender);
-        if (panel->Controls->Count < 2) return; 
+        if (panel->Controls->Count < 2) return;
 
         System::Windows::Forms::PictureBox^ image = safe_cast<System::Windows::Forms::PictureBox^>(panel->Controls[0]);
         System::Windows::Forms::Label^ label = safe_cast<System::Windows::Forms::Label^>(panel->Controls[1]);
@@ -135,13 +159,10 @@ namespace test {
     System::Void home::Remove_item_panel_Click(System::Object^ sender, System::EventArgs^ e) {
         content_panel->Controls->Clear();
 
-        // Create and configure the ReceiptForm
         ReceiptForm^ receiptPage = gcnew ReceiptForm();
         receiptPage->TopLevel = false;
         receiptPage->Dock = System::Windows::Forms::DockStyle::Fill;
         receiptPage->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
-
-        // Add to content panel
         content_panel->Controls->Add(receiptPage);
         receiptPage->Show();
     }
@@ -153,7 +174,6 @@ namespace test {
         dashboardpage->TopLevel = false;
         dashboardpage->Dock = System::Windows::Forms::DockStyle::Fill;
         dashboardpage->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
-
         content_panel->Controls->Add(dashboardpage);
         dashboardpage->Show();
     }
@@ -173,9 +193,7 @@ namespace test {
             this->Hide();
             Login^ loginForm = gcnew Login();
             loginForm->ShowDialog();
-
             this->Close();
         }
     }
-
 }

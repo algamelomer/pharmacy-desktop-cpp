@@ -1,5 +1,4 @@
 ﻿#pragma once
-//#include "productsearchform.h"
 #include "medicine_management.h"
 
 namespace test {
@@ -11,24 +10,15 @@ namespace test {
     using namespace System::Data;
     using namespace System::Drawing;
 
-    /// <summary>
-    /// Summary for home
-    /// </summary>
     public ref class home : public System::Windows::Forms::Form
     {
     public:
         home(void)
         {
             InitializeComponent();
-            //
-            //TODO: Add the constructor code here
-            //
         }
 
     protected:
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
         ~home()
         {
             if (components)
@@ -49,29 +39,24 @@ namespace test {
     private: System::Windows::Forms::Panel^ Menu_panel;
     private: System::Windows::Forms::Label^ label5;
     private: System::Windows::Forms::PictureBox^ pictureBox5;
-
     private: System::Windows::Forms::Panel^ logout_panel;
     private: System::Windows::Forms::Label^ label7;
     private: System::Windows::Forms::PictureBox^ pictureBox7;
     private: System::Windows::Forms::Panel^ sidebar_panel_container;
     private: System::Windows::Forms::FlowLayoutPanel^ flowLayoutPanel1;
     private: System::Windows::Forms::Panel^ content_panel;
-    private: bool sidebarExpanded = true;
     private: System::Windows::Forms::Panel^ add_item_panel;
     private: System::Windows::Forms::Label^ label3;
     private: System::Windows::Forms::PictureBox^ pictureBox3;
+    private: System::Windows::Forms::Timer^ sidebarTimer;
+    private: bool sidebarExpanded = true;
+    private: int targetWidth;
+    private: int animationStep = 10;
 
     private:
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         void InitializeComponent(void)
         {
             System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(home::typeid));
@@ -96,6 +81,7 @@ namespace test {
             this->label3 = (gcnew System::Windows::Forms::Label());
             this->pictureBox3 = (gcnew System::Windows::Forms::PictureBox());
             this->content_panel = (gcnew System::Windows::Forms::Panel());
+            this->sidebarTimer = (gcnew System::Windows::Forms::Timer());
             this->Home_panel->SuspendLayout();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
             this->Remove_item_panel->SuspendLayout();
@@ -123,6 +109,8 @@ namespace test {
             this->Home_panel->Size = System::Drawing::Size(299, 92);
             this->Home_panel->TabIndex = 3;
             this->Home_panel->Click += gcnew System::EventHandler(this, &home::Home_panel_Click);
+            this->Home_panel->MouseEnter += gcnew System::EventHandler(this, &home::Panel_MouseEnter);
+            this->Home_panel->MouseLeave += gcnew System::EventHandler(this, &home::Panel_MouseLeave);
             // 
             // label1
             // 
@@ -138,6 +126,8 @@ namespace test {
             this->label1->Text = L"Home";
             this->label1->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             this->label1->Click += gcnew System::EventHandler(this, &home::Home_panel_Click);
+            this->label1->MouseEnter += gcnew System::EventHandler(this, &home::Panel_MouseEnter);
+            this->label1->MouseLeave += gcnew System::EventHandler(this, &home::Panel_MouseLeave);
             // 
             // pictureBox1
             // 
@@ -152,6 +142,8 @@ namespace test {
             this->pictureBox1->TabIndex = 0;
             this->pictureBox1->TabStop = false;
             this->pictureBox1->Click += gcnew System::EventHandler(this, &home::Home_panel_Click);
+            this->pictureBox1->MouseEnter += gcnew System::EventHandler(this, &home::Panel_MouseEnter);
+            this->pictureBox1->MouseLeave += gcnew System::EventHandler(this, &home::Panel_MouseLeave);
             // 
             // Remove_item_panel
             // 
@@ -164,6 +156,8 @@ namespace test {
             this->Remove_item_panel->Size = System::Drawing::Size(299, 92);
             this->Remove_item_panel->TabIndex = 4;
             this->Remove_item_panel->Click += gcnew System::EventHandler(this, &home::Remove_item_panel_Click);
+            this->Remove_item_panel->MouseEnter += gcnew System::EventHandler(this, &home::Panel_MouseEnter);
+            this->Remove_item_panel->MouseLeave += gcnew System::EventHandler(this, &home::Panel_MouseLeave);
             // 
             // label2
             // 
@@ -179,6 +173,8 @@ namespace test {
             this->label2->Text = L"Receipt";
             this->label2->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             this->label2->Click += gcnew System::EventHandler(this, &home::Remove_item_panel_Click);
+            this->label2->MouseEnter += gcnew System::EventHandler(this, &home::Panel_MouseEnter);
+            this->label2->MouseLeave += gcnew System::EventHandler(this, &home::Panel_MouseLeave);
             // 
             // pictureBox2
             // 
@@ -193,6 +189,8 @@ namespace test {
             this->pictureBox2->TabIndex = 0;
             this->pictureBox2->TabStop = false;
             this->pictureBox2->Click += gcnew System::EventHandler(this, &home::Remove_item_panel_Click);
+            this->pictureBox2->MouseEnter += gcnew System::EventHandler(this, &home::Panel_MouseEnter);
+            this->pictureBox2->MouseLeave += gcnew System::EventHandler(this, &home::Panel_MouseLeave);
             // 
             // Menu_panel
             // 
@@ -206,6 +204,8 @@ namespace test {
             this->Menu_panel->Size = System::Drawing::Size(299, 92);
             this->Menu_panel->TabIndex = 5;
             this->Menu_panel->Click += gcnew System::EventHandler(this, &home::Menu_panel_Click);
+            this->Menu_panel->MouseEnter += gcnew System::EventHandler(this, &home::Panel_MouseEnter);
+            this->Menu_panel->MouseLeave += gcnew System::EventHandler(this, &home::Panel_MouseLeave);
             // 
             // label5
             // 
@@ -221,6 +221,8 @@ namespace test {
             this->label5->Text = L"Menu";
             this->label5->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             this->label5->Click += gcnew System::EventHandler(this, &home::Menu_panel_Click);
+            this->label5->MouseEnter += gcnew System::EventHandler(this, &home::Panel_MouseEnter);
+            this->label5->MouseLeave += gcnew System::EventHandler(this, &home::Panel_MouseLeave);
             // 
             // pictureBox5
             // 
@@ -235,6 +237,8 @@ namespace test {
             this->pictureBox5->TabIndex = 0;
             this->pictureBox5->TabStop = false;
             this->pictureBox5->Click += gcnew System::EventHandler(this, &home::Menu_panel_Click);
+            this->pictureBox5->MouseEnter += gcnew System::EventHandler(this, &home::Panel_MouseEnter);
+            this->pictureBox5->MouseLeave += gcnew System::EventHandler(this, &home::Panel_MouseLeave);
             // 
             // dashboard_panel
             // 
@@ -247,6 +251,8 @@ namespace test {
             this->dashboard_panel->Size = System::Drawing::Size(299, 92);
             this->dashboard_panel->TabIndex = 5;
             this->dashboard_panel->Click += gcnew System::EventHandler(this, &home::dashboard_panel_Click);
+            this->dashboard_panel->MouseEnter += gcnew System::EventHandler(this, &home::Panel_MouseEnter);
+            this->dashboard_panel->MouseLeave += gcnew System::EventHandler(this, &home::Panel_MouseLeave);
             // 
             // label6
             // 
@@ -262,6 +268,8 @@ namespace test {
             this->label6->Text = L"Dashboard";
             this->label6->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             this->label6->Click += gcnew System::EventHandler(this, &home::dashboard_panel_Click);
+            this->label6->MouseEnter += gcnew System::EventHandler(this, &home::Panel_MouseEnter);
+            this->label6->MouseLeave += gcnew System::EventHandler(this, &home::Panel_MouseLeave);
             // 
             // pictureBox6
             // 
@@ -276,6 +284,8 @@ namespace test {
             this->pictureBox6->TabIndex = 0;
             this->pictureBox6->TabStop = false;
             this->pictureBox6->Click += gcnew System::EventHandler(this, &home::dashboard_panel_Click);
+            this->pictureBox6->MouseEnter += gcnew System::EventHandler(this, &home::Panel_MouseEnter);
+            this->pictureBox6->MouseLeave += gcnew System::EventHandler(this, &home::Panel_MouseLeave);
             // 
             // logout_panel
             // 
@@ -289,6 +299,8 @@ namespace test {
             this->logout_panel->Size = System::Drawing::Size(307, 92);
             this->logout_panel->TabIndex = 6;
             this->logout_panel->Click += gcnew System::EventHandler(this, &home::logout_panel_Click);
+            this->logout_panel->MouseEnter += gcnew System::EventHandler(this, &home::Panel_MouseEnter);
+            this->logout_panel->MouseLeave += gcnew System::EventHandler(this, &home::Panel_MouseLeave);
             // 
             // label7
             // 
@@ -304,6 +316,8 @@ namespace test {
             this->label7->Text = L"Logout";
             this->label7->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             this->label7->Click += gcnew System::EventHandler(this, &home::logout_panel_Click);
+            this->label7->MouseEnter += gcnew System::EventHandler(this, &home::Panel_MouseEnter);
+            this->label7->MouseLeave += gcnew System::EventHandler(this, &home::Panel_MouseLeave);
             // 
             // pictureBox7
             // 
@@ -318,6 +332,8 @@ namespace test {
             this->pictureBox7->TabIndex = 0;
             this->pictureBox7->TabStop = false;
             this->pictureBox7->Click += gcnew System::EventHandler(this, &home::logout_panel_Click);
+            this->pictureBox7->MouseEnter += gcnew System::EventHandler(this, &home::Panel_MouseEnter);
+            this->pictureBox7->MouseLeave += gcnew System::EventHandler(this, &home::Panel_MouseLeave);
             // 
             // sidebar_panel_container
             // 
@@ -332,7 +348,6 @@ namespace test {
             this->sidebar_panel_container->Name = L"sidebar_panel_container";
             this->sidebar_panel_container->Size = System::Drawing::Size(307, 764);
             this->sidebar_panel_container->TabIndex = 1;
-            this->sidebar_panel_container->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &home::sidebar_panel_container_Paint);
             // 
             // flowLayoutPanel1
             // 
@@ -347,7 +362,6 @@ namespace test {
             this->flowLayoutPanel1->Name = L"flowLayoutPanel1";
             this->flowLayoutPanel1->Size = System::Drawing::Size(307, 602);
             this->flowLayoutPanel1->TabIndex = 0;
-            this->flowLayoutPanel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &home::flowLayoutPanel1_Paint);
             // 
             // add_item_panel
             // 
@@ -360,6 +374,8 @@ namespace test {
             this->add_item_panel->Size = System::Drawing::Size(299, 92);
             this->add_item_panel->TabIndex = 2;
             this->add_item_panel->Click += gcnew System::EventHandler(this, &home::add_item_panel_Click);
+            this->add_item_panel->MouseEnter += gcnew System::EventHandler(this, &home::Panel_MouseEnter);
+            this->add_item_panel->MouseLeave += gcnew System::EventHandler(this, &home::Panel_MouseLeave);
             // 
             // label3
             // 
@@ -375,6 +391,8 @@ namespace test {
             this->label3->Text = L"Medicines";
             this->label3->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             this->label3->Click += gcnew System::EventHandler(this, &home::add_item_panel_Click);
+            this->label3->MouseEnter += gcnew System::EventHandler(this, &home::Panel_MouseEnter);
+            this->label3->MouseLeave += gcnew System::EventHandler(this, &home::Panel_MouseLeave);
             // 
             // pictureBox3
             // 
@@ -389,6 +407,8 @@ namespace test {
             this->pictureBox3->TabIndex = 0;
             this->pictureBox3->TabStop = false;
             this->pictureBox3->Click += gcnew System::EventHandler(this, &home::add_item_panel_Click);
+            this->pictureBox3->MouseEnter += gcnew System::EventHandler(this, &home::Panel_MouseEnter);
+            this->pictureBox3->MouseLeave += gcnew System::EventHandler(this, &home::Panel_MouseLeave);
             // 
             // content_panel
             // 
@@ -399,7 +419,11 @@ namespace test {
             this->content_panel->Name = L"content_panel";
             this->content_panel->Size = System::Drawing::Size(716, 764);
             this->content_panel->TabIndex = 2;
-            this->content_panel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &home::content_panel_Paint);
+            // 
+            // sidebarTimer
+            // 
+            this->sidebarTimer->Interval = 10;
+            this->sidebarTimer->Tick += gcnew System::EventHandler(this, &home::SidebarTimer_Tick);
             // 
             // home
             // 
@@ -437,7 +461,6 @@ namespace test {
             this->add_item_panel->PerformLayout();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->EndInit();
             this->ResumeLayout(false);
-
         }
 #pragma endregion
 
@@ -448,15 +471,11 @@ namespace test {
     private: System::Void dashboard_panel_Click(System::Object^ sender, System::EventArgs^ e);
     private: System::Void logout_panel_Click(System::Object^ sender, System::EventArgs^ e);
     private: System::Void HomePagePanel_Resize(System::Object^ sender, System::EventArgs^ e);
-    private: System::Void sidebar_panel_container_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
-    }
+    private: System::Void Panel_MouseEnter(System::Object^ sender, System::EventArgs^ e);
+    private: System::Void Panel_MouseLeave(System::Object^ sender, System::EventArgs^ e);
+    private: System::Void SidebarTimer_Tick(System::Object^ sender, System::EventArgs^ e);
     private: System::Void home_Load(System::Object^ sender, System::EventArgs^ e) {
         Home_panel_Click(sender, e);
     }
-    private: System::Void content_panel_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
-    }
-    private: System::Void flowLayoutPanel1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
-    }
-
     };
 }
